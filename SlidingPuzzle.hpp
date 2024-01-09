@@ -7,6 +7,8 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     {
         BeginDrawing();
         EndDrawing();
+
+        // hello
     }
     
     return false;
