@@ -9,6 +9,7 @@ void gameOverScreen()
     while(!WindowShouldClose())
     {
         BeginDrawing();
+        DrawText("Game Over", 250, 250, 100, WHITE);
         EndDrawing();
     }
 }
