@@ -102,13 +102,13 @@ class PlatformerPlayer
             }
             else if(velocity.x > 0)
             {
-                velocity.x -= friction;
+                velocity.x -= friction * GetFrameTime();
 
                 if(velocity.x < 0) velocity.x = 0;
             }
             else if(velocity.x < 0)
             {
-                velocity.x += friction;
+                velocity.x += friction * GetFrameTime();
 
                 if(velocity.x > 0) velocity.x = 0;
             }
