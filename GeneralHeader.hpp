@@ -7,6 +7,23 @@ enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnece
 
 enum direction : char {left, right, up, down};
 
+class breakoutBall
+{
+    private:
+        Rectangle hitbox = {20, 20, 50, 50}; //= {20, 20, 500, 500};// x, y, width, height
+        Vector2 velocity = {0, 0};
+        Color color;
+
+    public:
+        
+
+
+
+};
+
+
+
+
 class PlatformerPlayer
 {
     private:
