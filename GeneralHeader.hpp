@@ -70,16 +70,6 @@ class PlatformerPlayer
             hitbox.x = inXPosition;
         }
 
-        float getHeight()
-        {
-            return hitbox.height;
-        }
-
-        float getWidth()
-        {
-            return hitbox.width;
-        }
-
         bool getGrounded()
         {
             return grounded;
@@ -157,22 +147,38 @@ class PlatformerPlayer
                 velocity.x = -maxXSpeed;
             }
 
-            if(grounded)
+            if(coyoteTimer > 0)
             {
                 if(IsKeyPressed(KEY_UP))
                 {
                     velocity.y = -jumpSpeed;
                     
                     unground();
+                    coyoteTimer = 0;
                 }
             }
-            else
+            if(!grounded)
             {
                 velocity.y += gravity * GetFrameTime();
+                
+                if(coyoteTimer > 0)
+                {
+                    coyoteTimer -= GetFrameTime();
+                    
+                    if(coyoteTimer < 0)
+                    {
+                        coyoteTimer = 0;
+                    }
+                }
             }
 
             hitbox.x += velocity.x * GetFrameTime();
             hitbox.y += velocity.y * GetFrameTime();
+        }
+
+        void resetCoyoteTimer()
+        {
+            coyoteTimer = coyoteTimerMax;
         }
 
         void draw()
@@ -207,7 +213,7 @@ class Brick
             {
                 return left;
             }
-            if(otherHitbox.y <= hitbox.y + hitbox.height)
+            if(otherHitbox.y >= hitbox.y + hitbox.height)
             {
                 return down;
             }
@@ -234,31 +240,49 @@ class Brick
         virtual bool handleColisionPlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
         {
             direction collisionSide;
+            Rectangle playerHitbox = player.getHitbox();
             
-            if(!CheckCollisionRecs(hitbox, player.getHitbox())) return false;
+            if(!CheckCollisionRecs(hitbox, playerHitbox))
+            {
+                if(playerHitbox.y + playerHitbox.height == hitbox.y)
+                {
+                    playerHitbox.y += 1;
 
-            collisionSide = rectangleEnteredFromSide(player.getHitbox(), player.getVelocity());
+                    return CheckCollisionRecs(hitbox, playerHitbox);
+                }
+                
+                return false;
+            }
+
+            collisionSide = rectangleEnteredFromSide(playerHitbox, player.getVelocity());
 
             switch(collisionSide)
             {
                 case up:
                     player.setGrounded(true);
+
                     player.setYVelocity(0);
-                    player.setYPosition(hitbox.y - player.getHeight());
+                    player.setYPosition(hitbox.y - playerHitbox.height);
+
                     player.setXAcceleration(traction);
                     player.setFriction(friction);
+
+                    player.resetCoyoteTimer();
                     
                     return true;
+                    
                 case left:
                     player.setXVelocity(0);
-                    player.setXPosition(hitbox.x - player.getWidth());
+                    player.setXPosition(hitbox.x - playerHitbox.width);
                     
                     return false;
+
                 case right:
                     player.setXVelocity(0);
                     player.setXPosition(hitbox.x + hitbox.width);
                     
                     return false;
+
                 case down:
                     player.setYVelocity(0);
                     player.setYPosition(hitbox.y + hitbox.height);

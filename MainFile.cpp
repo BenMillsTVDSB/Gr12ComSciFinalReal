@@ -2,7 +2,7 @@
 #include "Platformer.hpp"
 #include "Breakout.hpp"
 #include "SlidingPuzzle.hpp"
-#include "time.h"
+#include "time.h"// Also for RNG
 
 int main()
 {
