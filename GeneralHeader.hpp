@@ -60,6 +60,11 @@ class PlatformerPlayer
             return hitbox.width;
         }
 
+        bool getGrounded()
+        {
+            return grounded;
+        }
+
         Vector2 getVelocity()
         {
             return velocity;

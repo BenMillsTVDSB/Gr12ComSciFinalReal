@@ -1,4 +1,4 @@
-#include "GeneralHeader.hpp"
+#include "GeneralHeader.hpp"// Problem: player is on the very edge of the brick when grounded, so they are ungrounded on the next frame. Coyote time will fix this.
 
 void mainPlatformer()
 {
@@ -19,7 +19,7 @@ void mainPlatformer()
                 playerOnBrickTop = true;
             }
         }
-        if(!playerOnBrickTop) player.unground();
+        if(!playerOnBrickTop && player.getGrounded()) player.unground();
 
         BeginDrawing();
 
