@@ -206,7 +206,7 @@ class Brick
 
         virtual void update() {}// Can be used in subclases, will be called every frame.
 
-        virtual bool handleColisionPlatformer(PlatformerPlayer & player)// returns true if player collided.
+        virtual bool handleColisionPlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
         {
             direction collisionSide;
             
@@ -222,22 +222,24 @@ class Brick
                     player.setYPosition(hitbox.y - player.getHeight());
                     player.setXAcceleration(traction);
                     player.setFriction(friction);
-                    break;
+                    
+                    return true;
                 case left:
                     player.setXVelocity(0);
                     player.setXPosition(hitbox.x - player.getWidth());
-                    break;
+                    
+                    return false;
                 case right:
                     player.setXVelocity(0);
                     player.setXPosition(hitbox.x + hitbox.width);
-                    break;
+                    
+                    return false;
                 case down:
                     player.setYVelocity(0);
                     player.setYPosition(hitbox.y + hitbox.height);
-                    break;
+                    
+                    return false;
             }
-
-            return true;
         }
 };
 
