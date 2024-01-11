@@ -1,6 +1,7 @@
 #pragma once// check back later, remove if this is unneeded.
 
 #include "raylib.h"
+#include <vector>
 
 enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnecessary
 
