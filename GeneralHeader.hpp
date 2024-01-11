@@ -20,10 +20,9 @@ class PlatformerPlayer
         float jumpSpeed = 100;
 
     public:
-        PlatformerPlayer(Rectangle inHitbox, Vector2 inVelocity, Color inColour)
+        PlatformerPlayer(Rectangle inHitbox, Color inColour)
         {
             hitbox = inHitbox;
-            velocity = inVelocity;
             colour = inColour;
             xAcceleration = airXAcceleration;
         }
@@ -164,9 +163,14 @@ class Brick
             friction = inFriction;
         }
 
+        void draw()
+        {
+            DrawRectangleRec(hitbox, colour);
+        }
+
         virtual void update() {}// Can be used in subclases, will be called every frame.
 
-        virtual void checkAndHandleColisionPlatformer(PlatformerPlayer player)
+        virtual void checkAndHandleColisionPlatformer(PlatformerPlayer & player)
         {
             direction collisionSide;
             

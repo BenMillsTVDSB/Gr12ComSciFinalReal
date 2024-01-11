@@ -2,12 +2,19 @@
 
 void mainPlatformer()
 {
-    
+    PlatformerPlayer player = PlatformerPlayer({10, 10, 40, 40}, WHITE);
+    Brick brick = Brick({20, 400, 200, 50}, BLUE, 200);
 
     // Gameplay loop
     while(!WindowShouldClose())
     {
+        player.update();
+        brick.checkAndHandleColisionPlatformer(player);
+
         BeginDrawing();
+        ClearBackground(BLACK);
+        player.draw();
+        brick.draw();
         EndDrawing();
     }
 }
