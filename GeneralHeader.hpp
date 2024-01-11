@@ -10,21 +10,26 @@ class PlatformerPlayer
 {
     private:
         Rectangle hitbox;
-        Vector2 velocity;
+        Vector2 velocity = {0, 0};
         Color colour;
         bool grounded = false;
         float xAcceleration;
-        float airXAcceleration = 100;
-        float gravity = 30;
-        float maxXSpeed = 9999;
-        float jumpSpeed = 100;
+        float airXAcceleration;
+        float friction = 0;
+        float gravity;
+        float maxXSpeed;
+        float jumpSpeed;
 
     public:
-        PlatformerPlayer(Rectangle inHitbox, Color inColour)
+        PlatformerPlayer(Rectangle inHitbox, Color inColour, float inAirXAcceleration, float inGravity, float inMaxXSpeed, float inJumpSpeed)
         {
             hitbox = inHitbox;
             colour = inColour;
-            xAcceleration = airXAcceleration;
+            airXAcceleration = inAirXAcceleration;
+            xAcceleration = inAirXAcceleration;
+            gravity = inGravity;
+            maxXSpeed = inMaxXSpeed;
+            jumpSpeed = inJumpSpeed;
         }
 
         Rectangle getHitbox()
@@ -77,15 +82,35 @@ class PlatformerPlayer
             xAcceleration = inXAcceleration;
         }
 
+        void setFriction(float inFriction)
+        {
+            friction = inFriction;
+        }
+
         void update()
         {
-            if(IsKeyDown(KEY_LEFT))
+            if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
             {
-                velocity.x -= xAcceleration * GetFrameTime();
+                if(IsKeyDown(KEY_LEFT))
+                {
+                    velocity.x -= xAcceleration * GetFrameTime();
+                }
+                if(IsKeyDown(KEY_RIGHT))
+                {
+                    velocity.x += xAcceleration * GetFrameTime();
+                }
             }
-            if(IsKeyDown(KEY_RIGHT))
+            else if(velocity.x > 0)
             {
-                velocity.x += xAcceleration * GetFrameTime();
+                velocity.x -= friction;
+
+                if(velocity.x < 0) velocity.x = 0;
+            }
+            else if(velocity.x < 0)
+            {
+                velocity.x += friction;
+
+                if(velocity.x > 0) velocity.x = 0;
             }
 
             if(velocity.x > maxXSpeed)
@@ -103,7 +128,7 @@ class PlatformerPlayer
                 {
                     velocity.y = -jumpSpeed;
                     grounded = false;
-
+                    friction = 0;
                     xAcceleration = airXAcceleration;
                 }
             }
@@ -128,6 +153,7 @@ class Brick
         Rectangle hitbox; //= {20, 20, 500, 500};// x, y, width, height
         Color colour;
         float friction;
+        float traction;
 
         direction rectangleEnteredFromSide(Rectangle otherHitbox, Vector2 otherVelocity)// Used if other was outside hitbox on the previous frame. up = top side, down = bottom side. Only works if you already know that other is touching hitbox already. otherVelocity must be in pixels per second, ensure that otherVelocity is the velocity other used for their last movement.
         {
@@ -156,10 +182,11 @@ class Brick
         }
 
     public:
-        Brick(Rectangle inHitbox, Color inColour, float inFriction)
+        Brick(Rectangle inHitbox, Color inColour, float inTraction, float inFriction)
         {
             hitbox = inHitbox;
             colour = inColour;
+            traction = inTraction;
             friction = inFriction;
         }
 
@@ -184,7 +211,8 @@ class Brick
                     player.setGrounded(true);
                     player.setYVelocity(0);
                     player.setYPosition(hitbox.y - player.getHeight());
-                    player.setXAcceleration(friction);
+                    player.setXAcceleration(traction);
+                    player.setFriction(friction);
                     break;
                 case left:
                     player.setXVelocity(0);
