@@ -12,19 +12,20 @@ class PlatformerPlayer
         Rectangle hitbox;
         Vector2 velocity;
         Color colour;
-        bool grounded;
+        bool grounded = false;
         float xAcceleration;
-        float airXAcceleration;
+        float airXAcceleration = 100;
+        float gravity = 30;
+        float maxXSpeed = 9999;
+        float jumpSpeed = 100;
 
     public:
-        PlatformerPlayer(Rectangle inHitbox, Vector2 inVelocity, Color inColour, float inAirXAcceleration)
+        PlatformerPlayer(Rectangle inHitbox, Vector2 inVelocity, Color inColour)
         {
             hitbox = inHitbox;
             velocity = inVelocity;
             colour = inColour;
-            grounded = false;
-            airXAcceleration = inAirXAcceleration;
-            xAcceleration = inAirXAcceleration;
+            xAcceleration = airXAcceleration;
         }
 
         Rectangle getHitbox()
@@ -79,7 +80,46 @@ class PlatformerPlayer
 
         void update()
         {
+            if(IsKeyDown(KEY_LEFT))
+            {
+                velocity.x -= xAcceleration * GetFrameTime();
+            }
+            if(IsKeyDown(KEY_RIGHT))
+            {
+                velocity.x += xAcceleration * GetFrameTime();
+            }
 
+            if(velocity.x > maxXSpeed)
+            {
+                velocity.x = maxXSpeed;
+            }
+            else if(velocity.x < -maxXSpeed)
+            {
+                velocity.x = -maxXSpeed;
+            }
+
+            if(grounded)
+            {
+                if(IsKeyPressed(KEY_UP))
+                {
+                    velocity.y = -jumpSpeed;
+                    grounded = false;
+
+                    xAcceleration = airXAcceleration;
+                }
+            }
+            else
+            {
+                velocity.y += gravity * GetFrameTime();
+            }
+
+            hitbox.x += velocity.x * GetFrameTime();
+            hitbox.y += velocity.y * GetFrameTime();
+        }
+
+        void draw()
+        {
+            DrawRectangleRec(hitbox, colour);
         }
 };
 
@@ -154,7 +194,6 @@ class Brick
                     player.setYVelocity(0);
                     player.setYPosition(hitbox.y + hitbox.height);
                     break;
-
             }
         }
 };

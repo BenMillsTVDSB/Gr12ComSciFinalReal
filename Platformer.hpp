@@ -2,6 +2,8 @@
 
 void mainPlatformer()
 {
+    
+
     // Gameplay loop
     while(!WindowShouldClose())
     {
