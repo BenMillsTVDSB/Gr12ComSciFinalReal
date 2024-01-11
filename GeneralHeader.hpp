@@ -3,6 +3,8 @@
 #include "raylib.h"
 #include <vector>
 
+using namespace std;
+
 enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnecessary
 
 enum direction : char {left, right, up, down};
@@ -88,6 +90,13 @@ class PlatformerPlayer
             friction = inFriction;
         }
 
+        void unground()
+        {
+            grounded = false;
+            friction = 0;
+            xAcceleration = airXAcceleration;
+        }
+
         void update()
         {
             if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
@@ -128,9 +137,8 @@ class PlatformerPlayer
                 if(IsKeyPressed(KEY_UP))
                 {
                     velocity.y = -jumpSpeed;
-                    grounded = false;
-                    friction = 0;
-                    xAcceleration = airXAcceleration;
+                    
+                    unground();
                 }
             }
             else
@@ -198,11 +206,11 @@ class Brick
 
         virtual void update() {}// Can be used in subclases, will be called every frame.
 
-        virtual void checkAndHandleColisionPlatformer(PlatformerPlayer & player)
+        virtual bool handleColisionPlatformer(PlatformerPlayer & player)// returns true if player collided.
         {
             direction collisionSide;
             
-            if(!CheckCollisionRecs(hitbox, player.getHitbox())) return;
+            if(!CheckCollisionRecs(hitbox, player.getHitbox())) return false;
 
             collisionSide = rectangleEnteredFromSide(player.getHitbox(), player.getVelocity());
 
@@ -228,6 +236,8 @@ class Brick
                     player.setYPosition(hitbox.y + hitbox.height);
                     break;
             }
+
+            return true;
         }
 };
 
