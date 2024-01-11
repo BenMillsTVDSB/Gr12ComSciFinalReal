@@ -39,9 +39,11 @@ class PlatformerPlayer
         float gravity;
         float maxXSpeed;
         float jumpSpeed;
+        float coyoteTimerMax;
+        float coyoteTimer = 0;
 
     public:
-        PlatformerPlayer(Rectangle inHitbox, Color inColour, float inAirXAcceleration, float inGravity, float inMaxXSpeed, float inJumpSpeed)
+        PlatformerPlayer(Rectangle inHitbox, Color inColour, float inAirXAcceleration, float inGravity, float inMaxXSpeed, float inJumpSpeed, float inCoyoteTimerMax)
         {
             hitbox = inHitbox;
             colour = inColour;
@@ -50,6 +52,7 @@ class PlatformerPlayer
             gravity = inGravity;
             maxXSpeed = inMaxXSpeed;
             jumpSpeed = inJumpSpeed;
+            coyoteTimerMax = inCoyoteTimerMax;
         }
 
         Rectangle getHitbox()
