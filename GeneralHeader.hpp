@@ -87,9 +87,6 @@ class BreakoutBall
 
 };
 
-
-
-
 class PlatformerPlayer
 {
     private:
@@ -176,7 +173,7 @@ class PlatformerPlayer
             xAcceleration = airXAcceleration;
         }
 
-        void update()
+        bool update()
         {
             if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
             {
@@ -241,7 +238,9 @@ class PlatformerPlayer
 
             if(hitbox.y + hitbox.height > 600)
             {
-                // lose;
+                gameOverScreen();
+                
+                return true;
             }
             else if(hitbox.x < 0)
             {
@@ -251,8 +250,12 @@ class PlatformerPlayer
             }
             else if(hitbox.x +  + hitbox.width > 1000)
             {
-                // win;
+                winScreen();
+
+                return true;
             }
+
+            return false;
         }
 
         void resetCoyoteTimer()
@@ -276,7 +279,7 @@ class Brick
 
         direction rectangleEnteredFromSide(Rectangle otherHitbox, Vector2 otherVelocity)// Used if other was outside hitbox on the previous frame. up = top side, down = bottom side. Only works if you already know that other is touching hitbox already. otherVelocity must be in pixels per second, ensure that otherVelocity is the velocity other used for their last movement.
         {
-            // moving otherHitbox to where it was on the previous frame.
+            // Moving otherHitbox to where it was on the previous frame.
             otherHitbox.y -= otherVelocity.y * GetFrameTime();
             otherHitbox.x -= otherVelocity.x * GetFrameTime();
             

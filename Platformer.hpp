@@ -9,7 +9,7 @@ void mainPlatformer()
     // Gameplay loop
     while(!WindowShouldClose())
     {
-        player.update();
+        if(player.update()) return;
 
         playerOnBrickTop = false;
         for(int i = 0; i < bricks.size(); i++)
