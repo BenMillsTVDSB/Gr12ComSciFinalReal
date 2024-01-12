@@ -183,6 +183,21 @@ class PlatformerPlayer
 
             hitbox.x += velocity.x * GetFrameTime();
             hitbox.y += velocity.y * GetFrameTime();
+
+            if(hitbox.y + hitbox.height > 600)
+            {
+                // lose;
+            }
+            else if(hitbox.x < 0)
+            {
+                hitbox.x = 0;
+
+                if(velocity.x < 0) velocity.x = 0;
+            }
+            else if(hitbox.x +  + hitbox.width > 1000)
+            {
+                // win;
+            }
         }
 
         void resetCoyoteTimer()
