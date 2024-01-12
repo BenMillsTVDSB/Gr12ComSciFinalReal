@@ -14,7 +14,10 @@ void gameOverScreen()
     while(!WindowShouldClose())
     {
         BeginDrawing();
+
+        ClearBackground(BLACK);
         DrawText("Game Over", 250, 250, 100, WHITE);
+
         EndDrawing();
     }
 }
@@ -24,7 +27,10 @@ void winScreen()
     while(!WindowShouldClose())
     {
         BeginDrawing();
+
+        ClearBackground(BLACK);
         DrawText("You Win!", 250, 250, 100, WHITE);
+        
         EndDrawing();
     }
 }
