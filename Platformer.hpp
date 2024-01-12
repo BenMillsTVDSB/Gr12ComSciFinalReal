@@ -14,7 +14,7 @@ void mainPlatformer()
         playerOnBrickTop = false;
         for(int i = 0; i < bricks.size(); i++)
         {
-            if(bricks[i]->handleColisionPlatformer(player))
+            if(bricks[i]->updatePlatformer(player))
             {
                 playerOnBrickTop = true;
             }

@@ -314,9 +314,7 @@ class Brick
             DrawRectangleRec(hitbox, colour);
         }
 
-        virtual void update() {}// Can be used in subclases, will be called every frame.
-
-        virtual bool handleColisionPlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
+        virtual bool updatePlatformer(PlatformerPlayer & player)// Returns true if player is on top of the brick.
         {
             direction collisionSide;
             Rectangle playerHitbox = player.getHitbox();
