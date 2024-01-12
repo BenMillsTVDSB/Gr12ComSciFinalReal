@@ -7,6 +7,7 @@
 int main()
 {
     gameMode currentMode = slidingPuzzle;
+    vector<Brick*> bricks;
     
     InitWindow(1000, 600, "Placeholder");
     
@@ -15,6 +16,6 @@ int main()
     SetTargetFPS(60);
     
     if(!mainSlidingPuzzle()) return 0;
-    if(!mainBreakout()) return 0;
-    mainPlatformer();
+    if(!mainBreakout(bricks)) return 0;
+    mainPlatformer(bricks);
 }

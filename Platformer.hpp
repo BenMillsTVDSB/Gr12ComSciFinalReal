@@ -1,6 +1,6 @@
 #include "GeneralHeader.hpp"// Problem: player is on the very edge of the brick when grounded, so they are ungrounded on the next frame. Coyote time will fix this.
 
-void mainPlatformer()
+void mainPlatformer(vector<Brick*> & bricks2)
 {
     PlatformerPlayer player = PlatformerPlayer({10, 10, 40, 40}, WHITE, 700, 800, 300, 500, 0.2);
     vector<Brick*> bricks = {new Brick({20, 400, 200, 50}, BLUE, 2000, 700), new Brick({250, 300, 200, 100}, BLUE, 2000, 700), new Brick({250, 50, 200, 100}, BLUE, 2000, 700), new Brick({460, 300, 200, 100}, BLUE, 2000, 700)};
