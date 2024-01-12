@@ -9,32 +9,6 @@ enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnece
 
 enum direction : char {left, right, up, down};
 
-void gameOverScreen()
-{
-    while(!WindowShouldClose())
-    {
-        BeginDrawing();
-
-        ClearBackground(BLACK);
-        DrawText("Game Over", 250, 250, 100, WHITE);
-
-        EndDrawing();
-    }
-}
-
-void winScreen()
-{
-    while(!WindowShouldClose())
-    {
-        BeginDrawing();
-
-        ClearBackground(BLACK);
-        DrawText("You Win!", 250, 250, 100, WHITE);
-        
-        EndDrawing();
-    }
-}
-
 class BreakoutBall
 {
     private:
@@ -62,7 +36,7 @@ class BreakoutBall
         //Render the ball
         void draw() 
         {
-            drawRectangleRec(hitbox, color);
+            DrawRectangleRec(hitbox, color);
         }
 
         //Getters for position and velocity
@@ -92,6 +66,9 @@ class BreakoutBall
         //add other things later for brick and paddle collision
 
 };
+
+
+
 
 class PlatformerPlayer
 {
@@ -179,7 +156,7 @@ class PlatformerPlayer
             xAcceleration = airXAcceleration;
         }
 
-        bool update()
+        void update()
         {
             if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
             {
@@ -241,27 +218,6 @@ class PlatformerPlayer
 
             hitbox.x += velocity.x * GetFrameTime();
             hitbox.y += velocity.y * GetFrameTime();
-
-            if(hitbox.y + hitbox.height > 600)
-            {
-                gameOverScreen();
-                
-                return true;
-            }
-            else if(hitbox.x < 0)
-            {
-                hitbox.x = 0;
-
-                if(velocity.x < 0) velocity.x = 0;
-            }
-            else if(hitbox.x +  + hitbox.width > 1000)
-            {
-                winScreen();
-
-                return true;
-            }
-
-            return false;
         }
 
         void resetCoyoteTimer()
@@ -285,7 +241,7 @@ class Brick
 
         direction rectangleEnteredFromSide(Rectangle otherHitbox, Vector2 otherVelocity)// Used if other was outside hitbox on the previous frame. up = top side, down = bottom side. Only works if you already know that other is touching hitbox already. otherVelocity must be in pixels per second, ensure that otherVelocity is the velocity other used for their last movement.
         {
-            // Moving otherHitbox to where it was on the previous frame.
+            // moving otherHitbox to where it was on the previous frame.
             otherHitbox.y -= otherVelocity.y * GetFrameTime();
             otherHitbox.x -= otherVelocity.x * GetFrameTime();
             
@@ -323,7 +279,9 @@ class Brick
             DrawRectangleRec(hitbox, colour);
         }
 
-        virtual bool updatePlatformer(PlatformerPlayer & player)// Returns true if player is on top of the brick.
+        virtual void update() {}// Can be used in subclases, will be called every frame.
+
+        virtual bool handleColisionPlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
         {
             direction collisionSide;
             Rectangle playerHitbox = player.getHitbox();
@@ -377,3 +335,13 @@ class Brick
             }
         }
 };
+
+void gameOverScreen()
+{
+    while(!WindowShouldClose())
+    {
+        BeginDrawing();
+        DrawText("Game Over", 250, 250, 100, WHITE);
+        EndDrawing();
+    }
+}
