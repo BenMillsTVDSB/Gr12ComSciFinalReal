@@ -9,6 +9,26 @@ enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnece
 
 enum direction : char {left, right, up, down};
 
+void gameOverScreen()
+{
+    while(!WindowShouldClose())
+    {
+        BeginDrawing();
+        DrawText("Game Over", 250, 250, 100, WHITE);
+        EndDrawing();
+    }
+}
+
+void winScreen()
+{
+    while(!WindowShouldClose())
+    {
+        BeginDrawing();
+        DrawText("You Win!", 250, 250, 100, WHITE);
+        EndDrawing();
+    }
+}
+
 class BreakoutBall
 {
     private:
@@ -350,13 +370,3 @@ class Brick
             }
         }
 };
-
-void gameOverScreen()
-{
-    while(!WindowShouldClose())
-    {
-        BeginDrawing();
-        DrawText("Game Over", 250, 250, 100, WHITE);
-        EndDrawing();
-    }
-}
