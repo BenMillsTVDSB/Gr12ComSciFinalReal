@@ -12,14 +12,15 @@ enum direction : char {left, right, up, down};
 class breakoutBall
 {
     private:
-        Rectangle hitbox ; //= {20, 20, 500, 500};// x, y, width, height
-        Vector2 velocity = {0, 0};
+        Rectangle hitbox; //= {20, 20, 500, 500};// x, y, width, height
+        Vector2 velocity;
         Color color;
 
     public:
         breakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
             : hitbox({x, y, width, height}), velocity({velX, velY}), color(ballColor) {}
 
+        
         //Update the ball's position based on its velocity
         void Update(float deltaTime)
         {
@@ -29,6 +30,37 @@ class breakoutBall
             //add more for collions with the bricks and paddle
         }
 
+        //Render the ball
+        void Draw() 
+        {
+            DrawRectangleRec(hitbox, color);
+        }
+
+        //Getters for position and velocity
+        Vector2 GetPosition()
+        {
+            return {hitbox.x, hitbox.y};
+        }
+
+        Vector2 GetVelocity()
+        {
+            return velocity;
+        }
+
+        //Setters for position and velocity
+        void SetPosition(float x, float y)
+        {
+            hitbox.x = x;
+            hitbox.y = y;
+        }
+
+        void SetVelocity(float velX, float velY)
+        {
+            velocity.x = velX;
+            velocity.y = velY;
+        }
+
+        //add other things later for brick and paddle collision
 
 };
 
