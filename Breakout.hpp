@@ -6,6 +6,23 @@ bool mainBreakout()// returns true if player clears section, false if they are d
     while(!WindowShouldClose())
     {
         BeginDrawing();
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         EndDrawing();
     }
     
