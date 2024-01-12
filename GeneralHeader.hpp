@@ -12,13 +12,22 @@ enum direction : char {left, right, up, down};
 class breakoutBall
 {
     private:
-        Rectangle hitbox = {20, 20, 50, 50}; //= {20, 20, 500, 500};// x, y, width, height
+        Rectangle hitbox ; //= {20, 20, 500, 500};// x, y, width, height
         Vector2 velocity = {0, 0};
         Color color;
 
     public:
-        
+        breakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
+            : hitbox({x, y, width, height}), velocity({velX, velY}), color(ballColor) {}
 
+        //Update the ball's position based on its velocity
+        void Update(float deltaTime)
+        {
+            hitbox.x += velocity.x * deltaTime;
+            hitbox.y += velocity.y * deltaTime;
+
+            //add more for collions with the bricks and paddle
+        }
 
 
 };
