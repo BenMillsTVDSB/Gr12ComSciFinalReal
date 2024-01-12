@@ -82,6 +82,46 @@ class BreakoutPaddle
                 speed = paddleSpeed;
                 color = paddleColor;
             }
+
+            //user inputs for paddle
+            void update(float deltaTime)
+            {
+                if (IsKeyDown(KEY_LEFT) && hitbox.x > 0)
+                {
+                    hitbox.x += speed * deltaTime;
+                }
+
+                if (IsKeyDown(KEY_RIGHT) && hitbox.x + hitbox.width < GetScreenWidth)
+                {
+                    hitbox.x -= speed * deltaTime;
+                }
+            }
+
+            //draw the paddle
+            void draw()
+            {
+                DrawRectangleRec(hitbox, color);
+            }
+
+            //get paddle position
+            Vector2 getPosition()
+            {
+                return {hitbox.x, hitbox.y};
+            }
+
+            //get paddle dimensions
+            Vector2 getSize()
+            {
+                return {hitbox.width, hitbox.height};
+            }
+
+            //Setters for position and velocity
+            void setPosition(float x, float y)
+            {
+                hitbox.x = x;
+                hitbox.y = y;
+            }
+            
             
 
 };
