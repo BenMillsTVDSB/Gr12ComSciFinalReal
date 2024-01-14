@@ -3,7 +3,6 @@
 #include "raylib.h"
 
 enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnecessary
-
 enum direction : char {left, right, up, down};
 
 class Brick
@@ -45,9 +44,7 @@ class Brick
             colour = inColour;
         }
 
-        virtual void update() {}// Can be used if you need a subclass.
-
-        
+        virtual void update() {}// Can be used if you need a subclass.       
 };
 
 void gameOverScreen()
