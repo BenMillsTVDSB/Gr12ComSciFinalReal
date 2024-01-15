@@ -1,4 +1,4 @@
-#include "GeneralHeader.hpp"// Problem: player is on the very edge of the brick when grounded, so they are ungrounded on the next frame. Coyote time will fix this.
+#include "GeneralHeader.hpp"
 
 void mainPlatformer(vector<Brick*> & bricks2)
 {
