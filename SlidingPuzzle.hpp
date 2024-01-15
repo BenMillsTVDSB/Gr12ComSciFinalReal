@@ -1,20 +1,18 @@
 #include "GeneralHeader.hpp"
 #include "raylib.h"
 
-int main();
+bool mainSlidingPuzzle()// returns true if player clears section, false if they are defeated. Program ends upon returning false.
 {
-    bool mainSlidingPuzzle()// returns true if player clears section, false if they are defeated. Program ends upon returning false.
+    // Gameplay loop
+    while(!WindowShouldClose())
     {
-        // Gameplay loop
-        while(!WindowShouldClose())
-        {
-            BeginDrawing();
+        BeginDrawing();
+        DrawRectangle(0,0,100,200, BLUE);
 
 
-            EndDrawing();
+        EndDrawing();
 
-        }
-        
-        return false;
     }
+    
+    return false;
 }
