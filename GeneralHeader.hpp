@@ -8,6 +8,32 @@ using namespace std;
 enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnecessary
 enum direction : char {left, right, up, down};
 
+void gameOverScreen()
+{
+    while(!WindowShouldClose())
+    {
+        BeginDrawing();
+
+        ClearBackground(BLACK);
+        DrawText("Game Over", 250, 250, 100, WHITE);
+
+        EndDrawing();
+    }
+}
+
+void winScreen()
+{
+    while(!WindowShouldClose())
+    {
+        BeginDrawing();
+
+        ClearBackground(BLACK);
+        DrawText("You Win!", 300, 250, 100, WHITE);
+
+        EndDrawing();
+    }
+}
+
 class BreakoutBall
 {
     private:
@@ -16,7 +42,7 @@ class BreakoutBall
         Color color;
 
     public:
-        breakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
+        BreakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
         {
             hitbox = {x, y, width, height};
             velocity = {velX, velY};
@@ -49,6 +75,11 @@ class BreakoutBall
             return velocity;
         }
 
+        Rectangle getHitbox()
+        {
+            return hitbox;
+        }
+
         //Setters for position and velocity
         void setPosition(float x, float y)
         {
@@ -75,7 +106,7 @@ class BreakoutPaddle
             Color color;
     
     public:
-            breakoutPaddle(float x, float y, float width, float height, float paddleSpeed, Color paddleColor)
+            BreakoutPaddle(float x, float y, float width, float height, float paddleSpeed, Color paddleColor)
             {
                 hitbox = {x, y, width, height};
                 speed = paddleSpeed;
@@ -90,7 +121,7 @@ class BreakoutPaddle
                     hitbox.x += speed * deltaTime;
                 }
 
-                if (IsKeyDown(KEY_RIGHT) && hitbox.x + hitbox.width < GetScreenWidth)
+                if (IsKeyDown(KEY_RIGHT) && hitbox.x + hitbox.width < GetScreenWidth())
                 {
                     hitbox.x -= speed * deltaTime;
                 }
@@ -124,9 +155,6 @@ class BreakoutPaddle
             
 
 };
-
-
-
 
 class PlatformerPlayer
 {
@@ -214,7 +242,7 @@ class PlatformerPlayer
             xAcceleration = airXAcceleration;
         }
 
-        void update()
+        bool update()
         {
             if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
             {
@@ -239,7 +267,6 @@ class PlatformerPlayer
 
                 if(velocity.x > 0) velocity.x = 0;
             }
-
             if(velocity.x > maxXSpeed)
             {
                 velocity.x = maxXSpeed;
@@ -248,7 +275,6 @@ class PlatformerPlayer
             {
                 velocity.x = -maxXSpeed;
             }
-
             if(coyoteTimer > 0)
             {
                 if(IsKeyPressed(KEY_UP))
@@ -276,13 +302,33 @@ class PlatformerPlayer
 
             hitbox.x += velocity.x * GetFrameTime();
             hitbox.y += velocity.y * GetFrameTime();
+
+            if(hitbox.x < 0)
+            {
+                hitbox.x = 0;
+
+                if(velocity.x < 0) velocity.x = 0;
+            }
+            else if(hitbox.x + hitbox.width > 1000)
+            {
+                winScreen();
+
+                return true;
+            }
+            else if(hitbox.y + hitbox.height > 600)
+            {
+                gameOverScreen();
+
+                return true;
+            }
+
+            return false;
         }
 
         void resetCoyoteTimer()
         {
             coyoteTimer = coyoteTimerMax;
         }
-
         void draw()
         {
             DrawRectangleRec(hitbox, colour);
@@ -337,9 +383,7 @@ class Brick
             DrawRectangleRec(hitbox, colour);
         }
 
-        virtual void update() {}// Can be used in subclases, will be called every frame.
-
-        virtual bool handleColisionPlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
+        virtual bool updatePlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
         {
             direction collisionSide;
             Rectangle playerHitbox = player.getHitbox();
@@ -392,14 +436,37 @@ class Brick
                     return false;
             }
         }
-};
 
-void gameOverScreen()
-{
-    while(!WindowShouldClose())
-    {
-        BeginDrawing();
-        DrawText("Game Over", 250, 250, 100, WHITE);
-        EndDrawing();
-    }
-}
+        void updateBreakout(BreakoutBall ball)
+        {
+            
+
+            if(!CheckCollisionRecs(hitbox, ball.getHitbox()))
+            {
+                return;
+            }
+
+            switch(rectangleEnteredFromSide(ball.getHitbox(), ball.getVelocity()))
+            {
+                case down:
+                    //code
+
+                    break;
+                case left:
+                    //code
+
+                    break;
+                case right:
+                    //code
+
+                    break;
+                case up:
+                    //code
+
+                    break;
+            }
+
+
+        }
+
+};
