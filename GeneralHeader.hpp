@@ -8,6 +8,32 @@ using namespace std;
 enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnecessary
 enum direction : char {left, right, up, down};
 
+void gameOverScreen()
+{
+    while(!WindowShouldClose())
+    {
+        BeginDrawing();
+
+        ClearBackground(BLACK);
+        DrawText("Game Over", 250, 250, 100, WHITE);
+
+        EndDrawing();
+    }
+}
+
+void winScreen()
+{
+    while(!WindowShouldClose())
+    {
+        BeginDrawing();
+
+        ClearBackground(BLACK);
+        DrawText("You Win!", 300, 250, 100, WHITE);
+
+        EndDrawing();
+    }
+}
+
 class BreakoutBall
 {
     private:
@@ -125,9 +151,6 @@ class BreakoutPaddle
 
 };
 
-
-
-
 class PlatformerPlayer
 {
     private:
@@ -156,57 +179,46 @@ class PlatformerPlayer
             jumpSpeed = inJumpSpeed;
             coyoteTimerMax = inCoyoteTimerMax;
         }
-
         Rectangle getHitbox()
         {
             return hitbox;
         }
-
         void setYPosition(float inYPosition)
         {
             hitbox.y = inYPosition;
         }
-
         void setXPosition(float inXPosition)
         {
             hitbox.x = inXPosition;
         }
-
         bool getGrounded()
         {
             return grounded;
         }
-
         Vector2 getVelocity()
         {
             return velocity;
         }
-
         void setYVelocity(float inYVelocity)
         {
             velocity.y = inYVelocity;
         }
-
         void setXVelocity(float inXVelocity)
         {
             velocity.x = inXVelocity;
         }
-
         void setGrounded(bool inGrounded)
         {
             grounded = inGrounded;
         }
-
         void setXAcceleration(float inXAcceleration)
         {
             xAcceleration = inXAcceleration;
         }
-
         void setFriction(float inFriction)
         {
             friction = inFriction;
         }
-
         void unground()
         {
             grounded = false;
@@ -214,7 +226,7 @@ class PlatformerPlayer
             xAcceleration = airXAcceleration;
         }
 
-        void update()
+        bool update()
         {
             if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
             {
@@ -230,16 +242,13 @@ class PlatformerPlayer
             else if(velocity.x > 0)
             {
                 velocity.x -= friction * GetFrameTime();
-
                 if(velocity.x < 0) velocity.x = 0;
             }
             else if(velocity.x < 0)
             {
                 velocity.x += friction * GetFrameTime();
-
                 if(velocity.x > 0) velocity.x = 0;
             }
-
             if(velocity.x > maxXSpeed)
             {
                 velocity.x = maxXSpeed;
@@ -248,7 +257,6 @@ class PlatformerPlayer
             {
                 velocity.x = -maxXSpeed;
             }
-
             if(coyoteTimer > 0)
             {
                 if(IsKeyPressed(KEY_UP))
@@ -276,13 +284,33 @@ class PlatformerPlayer
 
             hitbox.x += velocity.x * GetFrameTime();
             hitbox.y += velocity.y * GetFrameTime();
+
+            if(hitbox.x < 0)
+            {
+                hitbox.x = 0;
+
+                if(velocity.x < 0) velocity.x = 0;
+            }
+            else if(hitbox.x + hitbox.width > 1000)
+            {
+                winScreen();
+
+                return true;
+            }
+            else if(hitbox.y + hitbox.height > 600)
+            {
+                gameOverScreen();
+
+                return true;
+            }
+
+            return false;
         }
 
         void resetCoyoteTimer()
         {
             coyoteTimer = coyoteTimerMax;
         }
-
         void draw()
         {
             DrawRectangleRec(hitbox, colour);
@@ -339,7 +367,7 @@ class Brick
 
         virtual void update() {}// Can be used in subclases, will be called every frame.
 
-        virtual bool handleColisionPlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
+        virtual bool updatePlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
         {
             direction collisionSide;
             Rectangle playerHitbox = player.getHitbox();
@@ -393,13 +421,3 @@ class Brick
             }
         }
 };
-
-void gameOverScreen()
-{
-    while(!WindowShouldClose())
-    {
-        BeginDrawing();
-        DrawText("Game Over", 250, 250, 100, WHITE);
-        EndDrawing();
-    }
-}
