@@ -10,6 +10,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
         DrawRectangle(0,0,100,200, BLUE);
 
 
+
         EndDrawing();
 
     }
