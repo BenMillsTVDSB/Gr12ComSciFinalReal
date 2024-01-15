@@ -16,7 +16,7 @@ class BreakoutBall
         Color color;
 
     public:
-        breakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
+        BreakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
         {
             hitbox = {x, y, width, height};
             velocity = {velX, velY};
@@ -75,7 +75,7 @@ class BreakoutPaddle
             Color color;
     
     public:
-            breakoutPaddle(float x, float y, float width, float height, float paddleSpeed, Color paddleColor)
+            BreakoutPaddle(float x, float y, float width, float height, float paddleSpeed, Color paddleColor)
             {
                 hitbox = {x, y, width, height};
                 speed = paddleSpeed;
@@ -90,7 +90,7 @@ class BreakoutPaddle
                     hitbox.x += speed * deltaTime;
                 }
 
-                if (IsKeyDown(KEY_RIGHT) && hitbox.x + hitbox.width < GetScreenWidth)
+                if (IsKeyDown(KEY_RIGHT) && hitbox.x + hitbox.width < GetScreenWidth())
                 {
                     hitbox.x -= speed * deltaTime;
                 }
