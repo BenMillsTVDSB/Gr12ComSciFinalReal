@@ -75,6 +75,11 @@ class BreakoutBall
             return velocity;
         }
 
+        Rectangle getHitbox()
+        {
+            return hitbox;
+        }
+
         //Setters for position and velocity
         void setPosition(float x, float y)
         {
@@ -420,4 +425,37 @@ class Brick
                     return false;
             }
         }
+
+        void updateBreakout(BreakoutBall ball)
+        {
+            
+
+            if(!CheckCollisionRecs(hitbox, ball.getHitbox()))
+            {
+                return;
+            }
+
+            switch(rectangleEnteredFromSide(ball.getHitbox(), ball.getVelocity()))
+            {
+                case down:
+                    //code
+
+                    break;
+                case left:
+                    //code
+
+                    break;
+                case right:
+                    //code
+
+                    break;
+                case up:
+                    //code
+
+                    break;
+            }
+
+
+        }
+
 };
