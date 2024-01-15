@@ -179,46 +179,57 @@ class PlatformerPlayer
             jumpSpeed = inJumpSpeed;
             coyoteTimerMax = inCoyoteTimerMax;
         }
+
         Rectangle getHitbox()
         {
             return hitbox;
         }
+
         void setYPosition(float inYPosition)
         {
             hitbox.y = inYPosition;
         }
+
         void setXPosition(float inXPosition)
         {
             hitbox.x = inXPosition;
         }
+
         bool getGrounded()
         {
             return grounded;
         }
+
         Vector2 getVelocity()
         {
             return velocity;
         }
+
         void setYVelocity(float inYVelocity)
         {
             velocity.y = inYVelocity;
         }
+
         void setXVelocity(float inXVelocity)
         {
             velocity.x = inXVelocity;
         }
+
         void setGrounded(bool inGrounded)
         {
             grounded = inGrounded;
         }
+
         void setXAcceleration(float inXAcceleration)
         {
             xAcceleration = inXAcceleration;
         }
+
         void setFriction(float inFriction)
         {
             friction = inFriction;
         }
+
         void unground()
         {
             grounded = false;
@@ -242,11 +253,13 @@ class PlatformerPlayer
             else if(velocity.x > 0)
             {
                 velocity.x -= friction * GetFrameTime();
+
                 if(velocity.x < 0) velocity.x = 0;
             }
             else if(velocity.x < 0)
             {
                 velocity.x += friction * GetFrameTime();
+
                 if(velocity.x > 0) velocity.x = 0;
             }
             if(velocity.x > maxXSpeed)
@@ -364,8 +377,6 @@ class Brick
         {
             DrawRectangleRec(hitbox, colour);
         }
-
-        virtual void update() {}// Can be used in subclases, will be called every frame.
 
         virtual bool updatePlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
         {
