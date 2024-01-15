@@ -383,7 +383,7 @@ class Brick
             DrawRectangleRec(hitbox, colour);
         }
 
-        virtual bool updatePlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
+        bool updatePlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
         {
             direction collisionSide;
             Rectangle playerHitbox = player.getHitbox();
