@@ -483,14 +483,7 @@ class Brick
         void updateBreakout(BreakoutBall ball)
         {
             
-
-            if(!CheckCollisionRecs(hitbox, ball.getHitbox()))
-            {
-                return;
-            }
-
-            void updateBreakout(BreakoutBall ball)
-        {
+        
             direction hitDirection;
 
             if(!CheckCollisionRecs(hitbox, ball.getHitbox()))
@@ -498,21 +491,17 @@ class Brick
                 return;
             }
 
-            hitDirection = rectangleEnteredFromSide();
+            hitDirection = rectangleEnteredFromSide(ball.getHitbox(), ball.getVelocity());
 
-            if(hitDirection == left || right);
+            if(hitDirection == left || hitDirection == right)
             {
-                flipDirectionX();
+                ball.flipDirectionX();
             }
             else
             {
-                flipDirectionY();
+                ball.flipDirectionY();
             }
 
 
-        }
-
-
-        }
-
+        } 
 };
