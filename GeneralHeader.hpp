@@ -121,6 +121,16 @@ class BreakoutBall
             velocity.y = velY;
         }
 
+        void flipDirectionX()
+        {
+            velocity.x *= -1;
+        }
+
+        void flipDirectionY()
+        {
+            velocity.y *= -1;
+        }
+
         //add other things later for brick and paddle collision
 
 };
@@ -479,25 +489,28 @@ class Brick
                 return;
             }
 
-            switch(rectangleEnteredFromSide(ball.getHitbox(), ball.getVelocity()))
+            void updateBreakout(BreakoutBall ball)
+        {
+            direction hitDirection;
+
+            if(!CheckCollisionRecs(hitbox, ball.getHitbox()))
             {
-                case down:
-                    //code
-
-                    break;
-                case left:
-                    //code
-
-                    break;
-                case right:
-                    //code
-
-                    break;
-                case up:
-                    //code
-
-                    break;
+                return;
             }
+
+            hitDirection = rectangleEnteredFromSide();
+
+            if(hitDirection == left || right);
+            {
+                flipDirectionX();
+            }
+            else
+            {
+                flipDirectionY();
+            }
+
+
+        }
 
 
         }
