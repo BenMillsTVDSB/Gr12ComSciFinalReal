@@ -24,12 +24,12 @@ class Entity
             hitbox = newHitbox;
         }
 
-        float velocity()
+        float geVelocity()
         {
             return velocity;
         }
 
-        void setvelocity (float newVelocity)
+        void setVelocity (float newVelocity)
         {
             velocity = newVelocity;
         }
