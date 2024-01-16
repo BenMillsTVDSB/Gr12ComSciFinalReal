@@ -1,8 +1,7 @@
-#include <stdlib.h>// For random number generator
 #include "Platformer.hpp"
 #include "Breakout.hpp"
 #include "SlidingPuzzle.hpp"
-#include "time.h"// Also for RNG
+#include "time.h"
 
 int main()
 {
