@@ -2,10 +2,10 @@
 
 #include "raylib.h"
 #include <vector>
+#include <stdlib.h>
 
 using namespace std;
 
-enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnecessary
 enum direction : char {left, right, up, down};
 
 void gameOverScreen()
@@ -32,6 +32,34 @@ void winScreen()
 
         EndDrawing();
     }
+}
+
+Color getRandomDiscernableColour()// Returns a random colour that is easy to see on a black background.
+{
+    struct Color colourToReturn = {0, 0, 0, 255};
+    
+    colourToReturn.r = rand() % 256;
+    colourToReturn.g = rand() % 256;
+    colourToReturn.b = rand() % 256;
+    
+    // Makes sure that the colour is easy to see. The colour is detected as too hard to see if all rgb components have values less than 175 because colours need to be vibrant to show up on a black background (light grey and white are exceptions to this rule). The colour is made more visible by maxxing out a random rgb component because, again, colours are most visible on a black background when they are vibrant.
+    if(colourToReturn.r < 175 && colourToReturn.g < 175 && colourToReturn.b < 175)
+    {
+        switch(rand()%3)
+        {
+            case 0:
+                colourToReturn.r = 255;
+                return colourToReturn;
+            case 1:
+                colourToReturn.g = 255;
+                return colourToReturn;
+            case 2:
+                colourToReturn.b = 255;
+                return colourToReturn;
+        }
+    }
+
+    return colourToReturn;
 }
 
 class BreakoutBall
@@ -93,6 +121,16 @@ class BreakoutBall
             velocity.y = velY;
         }
 
+        void flipDirectionX()
+        {
+            velocity.x *= -1;
+        }
+
+        void flipDirectionY()
+        {
+            velocity.y *= -1;
+        }
+
         //add other things later for brick and paddle collision
 
 };
@@ -118,12 +156,12 @@ class BreakoutPaddle
             {
                 if (IsKeyDown(KEY_LEFT) && hitbox.x > 0)
                 {
-                    hitbox.x += speed * deltaTime;
+                    hitbox.x -= speed * deltaTime;
                 }
 
                 if (IsKeyDown(KEY_RIGHT) && hitbox.x + hitbox.width < GetScreenWidth())
                 {
-                    hitbox.x -= speed * deltaTime;
+                    hitbox.x += speed * deltaTime;
                 }
             }
 
@@ -267,6 +305,7 @@ class PlatformerPlayer
 
                 if(velocity.x > 0) velocity.x = 0;
             }
+
             if(velocity.x > maxXSpeed)
             {
                 velocity.x = maxXSpeed;
@@ -275,16 +314,20 @@ class PlatformerPlayer
             {
                 velocity.x = -maxXSpeed;
             }
+
             if(coyoteTimer > 0)
             {
                 if(IsKeyPressed(KEY_UP))
                 {
                     velocity.y = -jumpSpeed;
+
+                    colour = getRandomDiscernableColour();
                     
                     unground();
                     coyoteTimer = 0;
                 }
             }
+
             if(!grounded)
             {
                 velocity.y += gravity * GetFrameTime();
@@ -383,7 +426,7 @@ class Brick
             DrawRectangleRec(hitbox, colour);
         }
 
-        virtual bool updatePlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
+        bool updatePlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
         {
             direction collisionSide;
             Rectangle playerHitbox = player.getHitbox();
@@ -440,33 +483,25 @@ class Brick
         void updateBreakout(BreakoutBall ball)
         {
             
+        
+            direction hitDirection;
 
             if(!CheckCollisionRecs(hitbox, ball.getHitbox()))
             {
                 return;
             }
 
-            switch(rectangleEnteredFromSide(ball.getHitbox(), ball.getVelocity()))
+            hitDirection = rectangleEnteredFromSide(ball.getHitbox(), ball.getVelocity());
+
+            if(hitDirection == left || hitDirection == right)
             {
-                case down:
-                    //code
-
-                    break;
-                case left:
-                    //code
-
-                    break;
-                case right:
-                    //code
-
-                    break;
-                case up:
-                    //code
-
-                    break;
+                ball.flipDirectionX();
             }
+            else
+            {
+                ball.flipDirectionY();
+            }
+            hitbox.x = -1000;
 
-
-        }
-
+        } 
 };
