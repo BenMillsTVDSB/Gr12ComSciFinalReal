@@ -156,12 +156,12 @@ class BreakoutPaddle
             {
                 if (IsKeyDown(KEY_LEFT) && hitbox.x > 0)
                 {
-                    hitbox.x += speed * deltaTime;
+                    hitbox.x -= speed * deltaTime;
                 }
 
                 if (IsKeyDown(KEY_RIGHT) && hitbox.x + hitbox.width < GetScreenWidth())
                 {
-                    hitbox.x -= speed * deltaTime;
+                    hitbox.x += speed * deltaTime;
                 }
             }
 
@@ -501,7 +501,7 @@ class Brick
             {
                 ball.flipDirectionY();
             }
-
+            hitbox.x = -1000;
 
         } 
 };
