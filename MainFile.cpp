@@ -5,7 +5,6 @@
 
 int main()
 {
-    gameMode currentMode = slidingPuzzle;
     vector<Brick> bricks;
     
     InitWindow(1000, 600, "Placeholder");

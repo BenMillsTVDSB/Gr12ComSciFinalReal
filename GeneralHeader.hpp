@@ -6,7 +6,6 @@
 
 using namespace std;
 
-enum gameMode : char {slidingPuzzle, breakout, platformer};// Potentially unnecessary
 enum direction : char {left, right, up, down};
 
 void gameOverScreen()
