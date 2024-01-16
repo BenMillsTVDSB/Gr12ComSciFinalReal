@@ -34,6 +34,34 @@ void winScreen()
     }
 }
 
+Color GetRandomDiscernableColour()// Returns a random colour that is easy to see on a black background.
+{
+    struct Color colourToReturn = {0, 0, 0, 255};
+    
+    colourToReturn.r = rand() % 256;
+    colourToReturn.g = rand() % 256;
+    colourToReturn.b = rand() % 256;
+    
+    // Makes sure that the colour is easy to see. The colour is detected as too hard to see if all rgb components have values less than 175 because colours need to be vibrant to show up on a black background (light grey and white are exceptions to this rule). The colour is made more visible by maxxing out a random rgb component because, again, colours are most visible on a black background when they are vibrant.
+    if(colourToReturn.r < 175 && colourToReturn.g < 175 && colourToReturn.b < 175)
+    {
+        switch(rand()%3)
+        {
+            case 0:
+                colourToReturn.r = 255;
+                return colourToReturn;
+            case 1:
+                colourToReturn.g = 255;
+                return colourToReturn;
+            case 2:
+                colourToReturn.b = 255;
+                return colourToReturn;
+        }
+    }
+
+    return colourToReturn;
+}
+
 class BreakoutBall
 {
     private:
@@ -267,6 +295,7 @@ class PlatformerPlayer
 
                 if(velocity.x > 0) velocity.x = 0;
             }
+
             if(velocity.x > maxXSpeed)
             {
                 velocity.x = maxXSpeed;
@@ -275,16 +304,20 @@ class PlatformerPlayer
             {
                 velocity.x = -maxXSpeed;
             }
+
             if(coyoteTimer > 0)
             {
                 if(IsKeyPressed(KEY_UP))
                 {
                     velocity.y = -jumpSpeed;
+
+                    colour = GetRandomDiscernableColour();
                     
                     unground();
                     coyoteTimer = 0;
                 }
             }
+
             if(!grounded)
             {
                 velocity.y += gravity * GetFrameTime();
