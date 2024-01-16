@@ -34,7 +34,7 @@ void winScreen()
     }
 }
 
-Color GetRandomDiscernableColour()// Returns a random colour that is easy to see on a black background.
+Color getRandomDiscernableColour()// Returns a random colour that is easy to see on a black background.
 {
     struct Color colourToReturn = {0, 0, 0, 255};
     
@@ -311,7 +311,7 @@ class PlatformerPlayer
                 {
                     velocity.y = -jumpSpeed;
 
-                    colour = GetRandomDiscernableColour();
+                    colour = getRandomDiscernableColour();
                     
                     unground();
                     coyoteTimer = 0;
