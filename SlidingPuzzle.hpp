@@ -1,5 +1,12 @@
 #include "GeneralHeader.hpp"
+#include "Entity.hpp"
 #include "raylib.h"
+
+void walls(vector<Entity> entity)
+{
+    vector<Entity> entities = {Entity({0, 0, 150, 250}, 0, BLUE)};
+
+}
 
 bool mainSlidingPuzzle()// returns true if player clears section, false if they are defeated. Program ends upon returning false.
 {
@@ -7,10 +14,6 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     while(!WindowShouldClose())
     {
         BeginDrawing();
-        DrawRectangle(0,0,100,200, BLUE);
-
-
-
         EndDrawing();
 
     }
