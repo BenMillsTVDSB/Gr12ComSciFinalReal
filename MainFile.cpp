@@ -14,6 +14,6 @@ int main()
     SetTargetFPS(60);
     
     if(!mainSlidingPuzzle()) return 0;
-    if(!mainBreakout(bricks)) return 0;
+    //if(!mainBreakout(bricks)) return 0;
     mainPlatformer(bricks);
 }

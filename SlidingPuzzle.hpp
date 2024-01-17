@@ -47,6 +47,24 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
             }
         }
 
+        rectangle.x += movement.x;
+        rectangle.y += movement.y;
+
+        player.setHitbox(rectangle);
+
+        for(int i = 0; i < entities.size(); i++)
+        {
+            if (player.collidesWith(entities[i]))
+            {
+                rectangle.x -= movement.x;
+                rectangle.y -= movement.y;
+
+                movement = {0, 0};
+
+                player.setHitbox(rectangle);
+            }
+        }
+
         for(int i = 0; i < entities.size(); i++)
         {
             DrawRectangleRec(entities[i].getHitbox(), entities[i].getColour());

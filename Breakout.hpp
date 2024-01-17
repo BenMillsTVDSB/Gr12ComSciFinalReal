@@ -4,7 +4,7 @@ bool mainBreakout(vector<Brick> & bricks)// returns true if player clears sectio
 {
     
     BreakoutPaddle paddle = BreakoutPaddle(400, 100, 150, 25, 300, RED);
-    BreakoutBall ball = BreakoutBall(400, 100, 10, 10, 200, 200, RED)
+    BreakoutBall ball = BreakoutBall(400, 100, 10, 10, 200, 200, RED);
     
     
     
