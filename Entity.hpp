@@ -7,12 +7,7 @@ class Entity
         Rectangle hitbox; //= {x, y, width, height}
         float velocity;
         Color colour;
-
-        //direction rectangleSlidingBlock(Rectangle otherhitBox, Vector2 otherVelocity)
-        //{
-            //otherhitBox.y -= otherVelocity.y * GetFrameTime();    
-        //}
-
+        
     public:
         Rectangle getHitbox()
         {
@@ -24,7 +19,7 @@ class Entity
             hitbox = newHitbox;
         }
 
-        float geVelocity()
+        float getVelocity()
         {
             return velocity;
         }
@@ -43,7 +38,6 @@ class Entity
         {
             colour = newColour;
         }
-
 
         bool collidesWith(Entity entity) 
         {
