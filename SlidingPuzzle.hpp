@@ -13,7 +13,11 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     Entity({350, 300, 250, 200}, 0 , BLUE),
     Entity({300, 550, 100, 50}, 0, BLUE),
     Entity({650, 500, 150, 300}, 0, BLUE),
-    Entity({730, 250, 70, 250}, 0, BLUE)};
+    Entity({730, 250, 70, 250}, 0, BLUE),
+    Entity({0, 0, 1000, 0}, 0, BLACK),
+    Entity({1000, 0, 0, 600}, 0, BLACK),
+    Entity({0, 600, 1000, 0}, 0, BLACK),
+    Entity({0, 0, 0, 600}, 0 , BLACK)};
 
     Entity player({950, 0, 50, 50}, 5, WHITE);
     float velocity = player.getVelocity();
