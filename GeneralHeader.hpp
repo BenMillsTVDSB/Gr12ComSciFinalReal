@@ -76,14 +76,34 @@ class BreakoutBall
             velocity = {velX, velY};
             color = ballColor;
         }
+
+        void flipDirectionY()
+        {
+            velocity.y *= -1;
+        }
         
-        //Update the ball's position based on its velocity
-        void update(float deltaTime)
+        //Update the ball's position based on its velocity. Returns true if breakout is done.
+        bool update(float deltaTime, bool * playerWins)
         {
             hitbox.x += velocity.x * deltaTime;
             hitbox.y += velocity.y * deltaTime;
 
-            //add more for collions with the bricks and paddle
+            if(hitbox.y < 0)
+            {
+                gameOverScreen();
+
+                *playerWins = false;
+
+                return true;
+            }
+            if(hitbox.y > GetScreenHeight())
+            {
+                *playerWins = true;
+
+                return true;
+            }
+
+            return false;
         }
 
         //Render the ball
@@ -126,10 +146,7 @@ class BreakoutBall
             velocity.x *= -1;
         }
 
-        void flipDirectionY()
-        {
-            velocity.y *= -1;
-        }
+        
 
         //add other things later for brick and paddle collision
 
