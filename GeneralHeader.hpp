@@ -83,7 +83,7 @@ class BreakoutBall
         }
         
         //Update the ball's position based on its velocity. Returns true if breakout is done.
-        bool update(float deltaTime, bool * playerWins)
+        bool update(float deltaTime, bool * playerWins, Rectangle paddleHitbox)
         {
             hitbox.x += velocity.x * deltaTime;
             hitbox.y += velocity.y * deltaTime;
@@ -96,11 +96,17 @@ class BreakoutBall
 
                 return true;
             }
-            if(hitbox.y > GetScreenHeight())
+            
+            else if(hitbox.y > GetScreenHeight())
             {
                 *playerWins = true;
 
                 return true;
+            }
+
+            else if(CheckCollisionRecs(hitbox, paddleHitbox) && velocity.y < 0)
+            {
+                velocity.y *= -1;
             }
 
             return false;
@@ -200,12 +206,19 @@ class BreakoutPaddle
                 return {hitbox.width, hitbox.height};
             }
 
+            Rectangle getHitbox()
+            {
+                return hitbox;
+            }
+
             //Setters for position and velocity
             void setPosition(float x, float y)
             {
                 hitbox.x = x;
                 hitbox.y = y;
             }
+
+           
             
             
 
