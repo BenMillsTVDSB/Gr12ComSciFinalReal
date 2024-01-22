@@ -109,6 +109,10 @@ class BreakoutBall
                 velocity.y *= -1;
             }
 
+            if(hitbox.x < 0 || hitbox.x + hitbox.width > GetScreenWidth())
+            {
+                velocity.x *= -1;
+            }
             return false;
         }
 
