@@ -15,7 +15,7 @@ bool mainBreakout(vector<Brick> & bricks)// returns true if player clears sectio
         
         paddle.update(GetFrameTime());
         
-        if(ball.update(GetFrameTime(), &returnValue))
+        if(ball.update(GetFrameTime(), &returnValue, paddle.getHitbox()))
         {
             return returnValue;
         }
