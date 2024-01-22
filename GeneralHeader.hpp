@@ -497,7 +497,7 @@ class Brick
             }
         }
 
-        void updateBreakout(BreakoutBall ball)
+        void updateBreakout(BreakoutBall & ball)
         {
             
         
