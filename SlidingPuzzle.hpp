@@ -96,6 +96,11 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
             }
         }
 
+        if (counter <= 0)
+        {
+            void gameOver();
+        }
+
         for(int i = 0; i < entities.size(); i++)
         {
             DrawRectangleRec(entities[i].getHitbox(), entities[i].getColour());
@@ -107,6 +112,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
         DrawRectangleRec(player.getHitbox(), WHITE);
 
         DrawText(to_string(counter).c_str(), 10, 0, 100, WHITE);
+        
 
         
         EndDrawing();
