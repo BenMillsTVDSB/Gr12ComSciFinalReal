@@ -1,5 +1,8 @@
+#include <string>
 #include "GeneralHeader.hpp"
 #include "raylib.h"
+
+using namespace std;
 
 class Entity
 {
@@ -7,6 +10,7 @@ class Entity
         Rectangle hitbox; //= {x, y, width, height}
         float velocity;
         Color colour;
+        string type;
         
     public:
         Rectangle getHitbox()
@@ -39,15 +43,28 @@ class Entity
             colour = newColour;
         }
 
+        string getType()
+        {
+            return type;
+        }
+
+        void setType (string newType)
+        {
+            type = newType;
+        }
+
         bool collidesWith(Entity entity) 
         {
             return CheckCollisionRecs(hitbox, entity.hitbox);
         }
 
-        Entity (Rectangle newHitbox, float newVelocity, Color newColour)
+        Entity (Rectangle newHitbox, float newVelocity, Color newColour, string newType)
         {
            hitbox = newHitbox; 
            velocity = newVelocity;
            colour = newColour;
+           type = newType;
         }
+
+        virtual ~Entity() {}
 };
