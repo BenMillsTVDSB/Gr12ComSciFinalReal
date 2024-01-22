@@ -27,7 +27,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     Entity player({950, 0, 50, 50}, 5, WHITE, "player");
     float velocity = player.getVelocity();
     Vector2 movement = {0, 0};
-    int counter = 0;
+    int counter = 20;
     int prevKeyPressed = -1;
     int currentKeyPressed = -1;
     bool keyPressedThisFrame;
@@ -45,7 +45,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
                 movement = {velocity, 0};
                 currentKeyPressed = KEY_RIGHT;
                 keyPressedThisFrame = true;
-                counter++;
+                counter--;
             }  
 
             else if (IsKeyDown(KEY_LEFT)) 
@@ -53,7 +53,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
                 movement = {-velocity, 0};
                 currentKeyPressed = KEY_LEFT;
                 keyPressedThisFrame = true;
-                counter++;
+                counter--;
             } 
 
             else if (IsKeyDown(KEY_DOWN)) 
@@ -61,7 +61,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
                 movement = {0, velocity};
                 currentKeyPressed = KEY_DOWN;
                 keyPressedThisFrame = true;
-                counter++;
+                counter--;
             } 
 
             else if (IsKeyDown(KEY_UP)) 
@@ -69,9 +69,8 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
                 movement = {0, -velocity};
                 currentKeyPressed = KEY_UP;
                 keyPressedThisFrame = true;
-                counter++;
+                counter--;
             }
-
         }
 
         rectangle.x += movement.x;
@@ -92,7 +91,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
 
                 if(keyPressedThisFrame)
                 {
-                    counter--;
+                    counter++;
                 }
             }
         }
@@ -108,6 +107,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
         DrawRectangleRec(player.getHitbox(), WHITE);
 
         DrawText(to_string(counter).c_str(), 10, 0, 100, WHITE);
+
         
         EndDrawing();
 
