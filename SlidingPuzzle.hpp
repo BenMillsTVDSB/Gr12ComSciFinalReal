@@ -20,7 +20,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     Entity({730, 250, 70, 250}, 0, BLUE, "block"),
     Entity({0, 550, 50, 50}, 0, GREEN, "finish"),
     Entity({0, 400, 130, 50}, 0, RED, "hazard"),
-    Entity({678, 250, 50, 50}, 0, YELLOW, "key"),
+    Entity({678, 250, 50, 50}, 0, {0, 0, 0, 0}, "key"),
     Entity({0, 0, 1000, 0}, 0, BLACK, "block"),
     Entity({1000, 0, 0, 600}, 0, BLACK, "block"),
     Entity({0, 600, 1000, 0}, 0, BLACK, "block"),
@@ -34,6 +34,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     int currentKeyPressed = -1;
     bool keyPressedThisFrame, isKeyObtained;
     Rectangle rectangle;
+    Texture2D key = LoadTexture("key.png");
 
     while(!WindowShouldClose())
     {
@@ -127,12 +128,15 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
 
         BeginDrawing();
 
+        ClearBackground(BLACK);
+
+        DrawTextureEx(key, {700, 200}, 0, 0.25, WHITE);
+
         for(int i = 0; i < entities.size(); i++)
         {
             DrawRectangleRec(entities[i].getHitbox(), entities[i].getColour());
         }
 
-        ClearBackground(BLACK);
         DrawRectangleRec(player.getHitbox(), WHITE);
 
         DrawText(to_string(counter).c_str(), 10, 0, 100, WHITE);
