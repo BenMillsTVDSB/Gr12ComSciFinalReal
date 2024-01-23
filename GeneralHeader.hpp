@@ -389,13 +389,13 @@ class PlatformerPlayer
 
                 if(velocity.x < 0) velocity.x = 0;
             }
-            else if(hitbox.x + hitbox.width > 1000)
+            else if(hitbox.x + hitbox.width > GetScreenWidth())
             {
                 winScreen();
 
                 return true;
             }
-            else if(hitbox.y + hitbox.height > 600)
+            else if(hitbox.y + hitbox.height > GetScreenHeight())
             {
                 gameOverScreen();
 
