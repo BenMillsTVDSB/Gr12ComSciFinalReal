@@ -124,13 +124,11 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
             return mainSlidingPuzzle();
         }
 
-        
-
         BeginDrawing();
 
         ClearBackground(BLACK);
 
-        DrawTextureEx(key, {700, 200}, 0, 0.25, WHITE);
+        DrawTextureEx(key, {656, 240}, 0, 0.25, WHITE);
 
         for(int i = 0; i < entities.size(); i++)
         {
