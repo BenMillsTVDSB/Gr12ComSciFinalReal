@@ -19,6 +19,8 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     Entity({650, 500, 150, 300}, 0, BLUE, "block"),
     Entity({730, 250, 70, 250}, 0, BLUE, "block"),
     Entity({0, 550, 50, 50}, 0, GREEN, "finish"),
+    Entity({0, 400, 130, 50}, 0, RED, "hazard"),
+    Entity({678, 250, 50, 50}, 0, YELLOW, "key"),
     Entity({0, 0, 1000, 0}, 0, BLACK, "block"),
     Entity({1000, 0, 0, 600}, 0, BLACK, "block"),
     Entity({0, 600, 1000, 0}, 0, BLACK, "block"),
@@ -30,7 +32,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     int counter = 20;
     int prevKeyPressed = -1;
     int currentKeyPressed = -1;
-    bool keyPressedThisFrame;
+    bool keyPressedThisFrame, isKeyObtained;
     Rectangle rectangle;
 
     while(!WindowShouldClose())
@@ -80,25 +82,45 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
 
         for(int i = 0; i < entities.size(); i++)
         {
-            if (player.collidesWith(entities[i]) && entities[i].getType() == "block")
+            if (player.collidesWith(entities[i]))
             {
-                rectangle.x -= movement.x;
-                rectangle.y -= movement.y;
-
-                movement = {0, 0};
-
-                player.setHitbox(rectangle);
-
-                if(keyPressedThisFrame)
+                if (entities[i].getType() == "block")
                 {
-                    counter++;
+                    rectangle.x -= movement.x;
+                    rectangle.y -= movement.y;
+
+                    movement = {0, 0};
+
+                    player.setHitbox(rectangle);
+
+                    if(keyPressedThisFrame)
+                    {
+                        counter++;
+                    }
                 }
+                
+                else if (entities[i].getType() == "hazard")
+                {
+                    return mainSlidingPuzzle();
+                }
+
+                else if (entities[i].getType() == "key")
+                {
+                    isKeyObtained = true;
+                    entities[i].setColour(BLACK);
+                }
+
+                else if (entities[i].getType() == "finish" && isKeyObtained)
+                {
+                    return true;
+                }
+
             }
         }
 
-        if (counter <= 0)
+        if (counter == 0)
         {
-            void gameOver();
+            return mainSlidingPuzzle();
         }
 
         for(int i = 0; i < entities.size(); i++)
