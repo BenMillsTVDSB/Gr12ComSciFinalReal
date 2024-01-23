@@ -123,12 +123,14 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
             return mainSlidingPuzzle();
         }
 
+        
+
+        BeginDrawing();
+
         for(int i = 0; i < entities.size(); i++)
         {
             DrawRectangleRec(entities[i].getHitbox(), entities[i].getColour());
         }
-
-        BeginDrawing();
 
         ClearBackground(BLACK);
         DrawRectangleRec(player.getHitbox(), WHITE);
