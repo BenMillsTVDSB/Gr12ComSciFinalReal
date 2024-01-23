@@ -68,6 +68,7 @@ class BreakoutBall
         Rectangle hitbox; //= {20, 20, 500, 500};// x, y, width, height
         Vector2 velocity;
         Color color;
+        float maxXVelocity = 200;
 
     public:
         BreakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
@@ -97,7 +98,7 @@ class BreakoutBall
                 return true;
             }
             
-            else if(hitbox.y > GetScreenHeight())
+            else if(hitbox.y > GetScreenHeight() + 200)
             {
                 *playerWins = true;
 
@@ -107,8 +108,14 @@ class BreakoutBall
             else if(CheckCollisionRecs(hitbox, paddleHitbox) && velocity.y < 0)
             {
                 velocity.y *= -1;
+
+                velocity.x = maxXVelocity * (hitbox.x - paddleHitbox.x - (paddleHitbox.width/2) + (hitbox.width/2)) / ((paddleHitbox.width/2) + (hitbox.width/2));
             }
 
+            if(hitbox.x < 0 || hitbox.x + hitbox.width > GetScreenWidth())
+            {
+                velocity.x *= -1;
+            }
             return false;
         }
 
@@ -382,13 +389,13 @@ class PlatformerPlayer
 
                 if(velocity.x < 0) velocity.x = 0;
             }
-            else if(hitbox.x + hitbox.width > 1000)
+            else if(hitbox.x + hitbox.width > GetScreenWidth())
             {
                 winScreen();
 
                 return true;
             }
-            else if(hitbox.y + hitbox.height > 600)
+            else if(hitbox.y + hitbox.height > GetScreenHeight())
             {
                 gameOverScreen();
 
