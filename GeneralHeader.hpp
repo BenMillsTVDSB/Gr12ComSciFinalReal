@@ -98,7 +98,7 @@ class BreakoutBall
                 return true;
             }
             
-            else if(hitbox.y > GetScreenHeight())
+            else if(hitbox.y > GetScreenHeight() + 200)
             {
                 *playerWins = true;
 
