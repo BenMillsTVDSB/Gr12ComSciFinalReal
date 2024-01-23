@@ -68,6 +68,7 @@ class BreakoutBall
         Rectangle hitbox; //= {20, 20, 500, 500};// x, y, width, height
         Vector2 velocity;
         Color color;
+        float maxXVelocity = 200;
 
     public:
         BreakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
@@ -107,6 +108,8 @@ class BreakoutBall
             else if(CheckCollisionRecs(hitbox, paddleHitbox) && velocity.y < 0)
             {
                 velocity.y *= -1;
+
+                velocity.x = maxXVelocity * (hitbox.x - paddleHitbox.x - (paddleHitbox.width/2) + (hitbox.width/2)) / ((paddleHitbox.width/2) + (hitbox.width/2));
             }
 
             if(hitbox.x < 0 || hitbox.x + hitbox.width > GetScreenWidth())
