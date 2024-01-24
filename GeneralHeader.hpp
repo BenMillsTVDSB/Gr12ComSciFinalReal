@@ -68,16 +68,17 @@ class BreakoutBall
         Rectangle hitbox; //= {20, 20, 500, 500};// x, y, width, height
         Vector2 velocity;
         Color color;
-        float maxXVelocity = 200;
+        float maxXVelocity;
         bool shouldFlipXVelocity = false;
         bool shouldFlipYVelocity = false;
 
     public:
-        BreakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
+        BreakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor, float maxXVel)
         {
             hitbox = {x, y, width, height};
             velocity = {velX, velY};
             color = ballColor;
+            maxXVelocity = maxXVel;
         }
         
         //Update the ball's position based on its velocity. Returns true if breakout is done.
