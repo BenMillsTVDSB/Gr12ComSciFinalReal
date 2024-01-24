@@ -120,6 +120,8 @@ class BreakoutBall
                 velocity.y *= -1;
 
                 velocity.x = maxXVelocity * (hitbox.x - paddleHitbox.x - (paddleHitbox.width/2) + (hitbox.width/2)) / ((paddleHitbox.width/2) + (hitbox.width/2));
+
+                color = getRandomDiscernableColour();
             }
 
             if(hitbox.x < 0 || hitbox.x + hitbox.width > GetScreenWidth())
@@ -127,6 +129,11 @@ class BreakoutBall
                 velocity.x *= -1;
             }
             return false;
+
+            if (IsKeyDown(KEY_P))
+            {
+                velocity.y = 300;    
+            }
         }
 
         //Render the ball
@@ -206,6 +213,8 @@ class BreakoutPaddle
                 {
                     hitbox.x += speed * deltaTime;
                 }
+
+                
             }
 
             //draw the paddle

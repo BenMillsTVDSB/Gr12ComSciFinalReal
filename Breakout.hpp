@@ -43,14 +43,6 @@ bool mainBreakout(vector<Brick> & bricks)// returns true if player clears sectio
         }
 
 
-
-
-
-
-
-
-
-
         EndDrawing();
     }
     
