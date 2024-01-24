@@ -69,6 +69,8 @@ class BreakoutBall
         Vector2 velocity;
         Color color;
         float maxXVelocity = 200;
+        bool shouldFlipXVelocity = false;
+        bool shouldFlipYVelocity = false;
 
     public:
         BreakoutBall(float x, float y, float width, float height, float velX, float velY, Color ballColor)
@@ -77,15 +79,22 @@ class BreakoutBall
             velocity = {velX, velY};
             color = ballColor;
         }
-
-        void flipDirectionY()
-        {
-            velocity.y *= -1;
-        }
         
         //Update the ball's position based on its velocity. Returns true if breakout is done.
         bool update(float deltaTime, bool * playerWins, Rectangle paddleHitbox)
         {
+            if(shouldFlipXVelocity)
+            {
+                velocity.x *= -1;
+            }
+            if(shouldFlipYVelocity)
+            {
+                velocity.y *= -1;
+            }
+
+            shouldFlipXVelocity = false;
+            shouldFlipYVelocity = false;
+
             hitbox.x += velocity.x * deltaTime;
             hitbox.y += velocity.y * deltaTime;
 
@@ -156,10 +165,13 @@ class BreakoutBall
 
         void flipDirectionX()
         {
-            velocity.x *= -1;
+            shouldFlipXVelocity = true;
         }
 
-        
+        void flipDirectionY()
+        {
+            shouldFlipYVelocity = true;
+        }
 
         //add other things later for brick and paddle collision
 
