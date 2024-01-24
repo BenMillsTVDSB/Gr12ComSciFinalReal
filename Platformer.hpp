@@ -1,4 +1,4 @@
-#include "GeneralHeader.hpp"// TODO: comment the player's update function and the brick functions that I made.
+#include "GeneralHeader.hpp"// TODO: comment the player's update function and the brick functions that I made. Claim my functions. Comment challenges.
 
 void mainPlatformer(vector<Brick> & bricks)
 {
