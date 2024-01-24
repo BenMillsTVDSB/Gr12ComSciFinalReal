@@ -1,4 +1,4 @@
-#include "GeneralHeader.hpp"
+#include "GeneralHeader.hpp"// TODO: comment the player's update function and the brick functions that I made.
 
 void mainPlatformer(vector<Brick> & bricks)
 {
@@ -14,13 +14,11 @@ void mainPlatformer(vector<Brick> & bricks)
         {
             if(bricks[i].updatePlatformer(player))
             {
-                player.setTouchedBrickTopThisFrame(true);
+                player.setGrounded(true);
             }
         }
         
         player.checkIfShouldUnground();
-
-        
 
         // Drawing objects
         BeginDrawing();

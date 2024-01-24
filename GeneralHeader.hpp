@@ -260,7 +260,6 @@ class PlatformerPlayer
         Vector2 velocity = {0, 0};
         Color colour;
         bool grounded = false;
-        bool touchedBrickTopThisFrame;
         float xAcceleration;
         float airXAcceleration;
         float friction = 0;
@@ -333,11 +332,6 @@ class PlatformerPlayer
             friction = inFriction;
         }
 
-        void setTouchedBrickTopThisFrame(bool inTouchedBrickTopThisFrame)
-        {
-            touchedBrickTopThisFrame = inTouchedBrickTopThisFrame;
-        }
-
         void unground()
         {
             grounded = false;
@@ -347,8 +341,6 @@ class PlatformerPlayer
 
         bool update()
         {
-            touchedBrickTopThisFrame = false;
-
             if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
             {
                 if(IsKeyDown(KEY_LEFT))
@@ -413,6 +405,8 @@ class PlatformerPlayer
             hitbox.x += velocity.x * GetFrameTime();
             hitbox.y += velocity.y * GetFrameTime();
 
+            grounded = false;// Grounded will be set to true later this frame if the player is on top of a brick.
+
             if(hitbox.x < 0)
             {
                 hitbox.x = 0;
@@ -437,7 +431,7 @@ class PlatformerPlayer
 
         void checkIfShouldUnground()
         {
-            if(!touchedBrickTopThisFrame && grounded)
+            if(!grounded)
             {
                 unground();
             }
@@ -484,8 +478,6 @@ class Brick
             {
                 return down;
             }
-
-            otherHitbox.x = 0/0;// If the game crashed and you ended up here, then there was a problem with either this method or how it was called. Tell group.
         }
 
     public:
