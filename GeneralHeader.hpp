@@ -251,6 +251,7 @@ class PlatformerPlayer
         Vector2 velocity = {0, 0};
         Color colour;
         bool grounded = false;
+        bool touchedBrickTopThisFrame;
         float xAcceleration;
         float airXAcceleration;
         float friction = 0;
@@ -323,6 +324,11 @@ class PlatformerPlayer
             friction = inFriction;
         }
 
+        void setTouchedBrickTopThisFrame(bool inTouchedBrickTopThisFrame)
+        {
+            touchedBrickTopThisFrame = inTouchedBrickTopThisFrame;
+        }
+
         void unground()
         {
             grounded = false;
@@ -332,6 +338,8 @@ class PlatformerPlayer
 
         bool update()
         {
+            touchedBrickTopThisFrame = false;
+
             if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
             {
                 if(IsKeyDown(KEY_LEFT))
@@ -418,10 +426,19 @@ class PlatformerPlayer
             return false;
         }
 
+        void checkIfShouldUnground()
+        {
+            if(!touchedBrickTopThisFrame && grounded)
+            {
+                unground();
+            }
+        }
+
         void resetCoyoteTimer()
         {
             coyoteTimer = coyoteTimerMax;
         }
+
         void draw()
         {
             DrawRectangleRec(hitbox, colour);

@@ -2,8 +2,7 @@
 
 void mainPlatformer(vector<Brick> & bricks)
 {
-    PlatformerPlayer player = PlatformerPlayer({10, 10, 20, 20}, WHITE, 700, 800, 300, 350, 0.2);
-    bool playerOnBrickTop;
+    PlatformerPlayer player = PlatformerPlayer({10, 10, 20, 20}, WHITE, 500, 800, 250, 350, 0.2);
 
     // Gameplay loop
     while(!WindowShouldClose())
@@ -11,15 +10,17 @@ void mainPlatformer(vector<Brick> & bricks)
         // Updating objects
         if(player.update()) return;
 
-        playerOnBrickTop = false;
         for(int i = 0; i < bricks.size(); i++)
         {
             if(bricks[i].updatePlatformer(player))
             {
-                playerOnBrickTop = true;
+                player.setTouchedBrickTopThisFrame(true);
             }
         }
-        if(!playerOnBrickTop && player.getGrounded()) player.unground();
+        
+        player.checkIfShouldUnground();
+
+        
 
         // Drawing objects
         BeginDrawing();
