@@ -1,11 +1,11 @@
 #include "Platformer.hpp"
 #include "Breakout.hpp"
 #include "SlidingPuzzle.hpp"
-#include "time.h"
 
 int main()// Ben.
 {
     vector<Brick> bricks;
+    clock_t startTime = -1;
     
     InitWindow(1000, 600, "Placeholder");
     
@@ -13,7 +13,7 @@ int main()// Ben.
     
     SetTargetFPS(60);
     
-    if(!mainSlidingPuzzle()) return 0;
+    if(!mainSlidingPuzzle(&startTime)) return 0;
     if(!mainBreakout(bricks)) return 0;
-    mainPlatformer(bricks);
+    mainPlatformer(bricks, startTime);
 }

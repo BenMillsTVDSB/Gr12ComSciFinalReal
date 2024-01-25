@@ -3,6 +3,8 @@
 #include "raylib.h"
 #include <vector>
 #include <stdlib.h>
+#include "time.h"
+#include <string>
 
 using namespace std;
 
@@ -21,7 +23,7 @@ void gameOverScreen()// Ben.
     }
 }
 
-void winScreen()// Ben.
+void winScreen(clock_t time)// Ben.
 {
     while(!WindowShouldClose())
     {
@@ -29,6 +31,7 @@ void winScreen()// Ben.
 
         ClearBackground(BLACK);
         DrawText("You Win!", 300, 250, 100, WHITE);
+        DrawText(to_string((double)time / CLOCKS_PER_SEC).c_str(), 200, 450, 100, WHITE);
 
         EndDrawing();
     }
@@ -337,7 +340,7 @@ class PlatformerPlayer// Ben.
             xAcceleration = airXAcceleration;// Inertia changing based on grounded or arial challenge. Ben.
         }
 
-        bool update()
+        bool update(clock_t startTime)
         {
             // If the player is airborne: applies gravity, ensures the physics are correctly set, and decreaces the coyote timer.
             if(!grounded)
@@ -423,7 +426,7 @@ class PlatformerPlayer// Ben.
             }
             else if(hitbox.x + hitbox.width > GetScreenWidth())// If the player gets to the right edge, they win.
             {
-                winScreen();
+                winScreen(clock() - startTime);
 
                 return true;
             }

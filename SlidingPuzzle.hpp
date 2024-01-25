@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-bool mainSlidingPuzzle()// returns true if player clears section, false if they are defeated. Program ends upon returning false.
+bool mainSlidingPuzzle(clock_t * startTime)// returns true if player clears section, false if they are defeated. Program ends upon returning false.
 {
     // Gameplay loop
     vector<Entity> entities = 
@@ -43,6 +43,11 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
         {
             if (IsKeyDown(KEY_RIGHT)) 
             {
+                if(*startTime == -1)
+                {
+                    *startTime = clock();
+                }
+
                 movement = {velocity, 0};
                 keyPressedThisFrame = true;
                 counter--;
@@ -50,6 +55,11 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
 
             else if (IsKeyDown(KEY_LEFT)) 
             {
+                if(*startTime == -1)
+                {
+                    *startTime = clock();
+                }
+
                 movement = {-velocity, 0};
                 keyPressedThisFrame = true;
                 counter--;
@@ -57,6 +67,11 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
 
             else if (IsKeyDown(KEY_DOWN)) 
             {
+                if(*startTime == -1)
+                {
+                    *startTime = clock();
+                }
+
                 movement = {0, velocity};
                 keyPressedThisFrame = true;
                 counter--;
@@ -64,6 +79,11 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
 
             else if (IsKeyDown(KEY_UP)) 
             {
+                if(*startTime == -1)
+                {
+                    *startTime = clock();
+                }
+                
                 movement = {0, -velocity};
                 keyPressedThisFrame = true;
                 counter--;
@@ -96,7 +116,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
                 
                 else if (entities[i].getType() == "hazard")
                 {
-                    return mainSlidingPuzzle();
+                    return mainSlidingPuzzle(startTime);
                 }
 
                 else if (entities[i].getType() == "key")
@@ -115,7 +135,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
 
         if (counter == 0)
         {
-            return mainSlidingPuzzle();
+            return mainSlidingPuzzle(startTime);
         }
 
         BeginDrawing();
