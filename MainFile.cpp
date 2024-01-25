@@ -7,7 +7,7 @@ int main()// Ben.
     vector<Brick> bricks;
     clock_t startTime = -1;
     
-    InitWindow(1000, 600, "Placeholder");
+    InitWindow(1000, 600, "Game");
     
     srand(time(NULL));
     

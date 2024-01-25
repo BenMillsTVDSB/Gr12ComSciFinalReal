@@ -30,7 +30,7 @@ bool mainSlidingPuzzle(clock_t * startTime)// returns true if player clears sect
     float velocity = player.getVelocity();
     Vector2 movement = {0, 0};
     int counter = 20;
-    bool keyPressedThisFrame, isKeyObtained;
+    bool keyPressedThisFrame, isKeyObtained = false;
     Rectangle rectangle;
     Texture2D key = LoadTexture("key.png");
 
