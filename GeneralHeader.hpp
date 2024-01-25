@@ -96,8 +96,11 @@ class BreakoutBall
             shouldFlipXVelocity = false;
             shouldFlipYVelocity = false;
 
-            hitbox.x += velocity.x * deltaTime;
-            hitbox.y += velocity.y * deltaTime;
+            if(IsKeyUp(KEY_P))
+            {
+                hitbox.x += velocity.x * deltaTime;
+                hitbox.y += velocity.y * deltaTime;
+            }
 
             if(hitbox.y < 0)
             {
@@ -128,12 +131,8 @@ class BreakoutBall
             {
                 velocity.x *= -1;
             }
-            return false;
 
-            if (IsKeyDown(KEY_P))
-            {
-                velocity.y = 300;    
-            }
+            return false;
         }
 
         //Render the ball
