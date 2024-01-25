@@ -9,7 +9,7 @@ int main()
     
     InitWindow(1000, 600, "Placeholder");
     
-    srand(time(NULL));// We will probably need rng later on.
+    srand(time(NULL));
     
     SetTargetFPS(60);
     

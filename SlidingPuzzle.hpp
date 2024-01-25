@@ -30,8 +30,6 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     float velocity = player.getVelocity();
     Vector2 movement = {0, 0};
     int counter = 20;
-    int prevKeyPressed = -1;
-    int currentKeyPressed = -1;
     bool keyPressedThisFrame, isKeyObtained;
     Rectangle rectangle;
     Texture2D key = LoadTexture("key.png");
@@ -46,7 +44,6 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
             if (IsKeyDown(KEY_RIGHT)) 
             {
                 movement = {velocity, 0};
-                currentKeyPressed = KEY_RIGHT;
                 keyPressedThisFrame = true;
                 counter--;
             }  
@@ -54,7 +51,6 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
             else if (IsKeyDown(KEY_LEFT)) 
             {
                 movement = {-velocity, 0};
-                currentKeyPressed = KEY_LEFT;
                 keyPressedThisFrame = true;
                 counter--;
             } 
@@ -62,7 +58,6 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
             else if (IsKeyDown(KEY_DOWN)) 
             {
                 movement = {0, velocity};
-                currentKeyPressed = KEY_DOWN;
                 keyPressedThisFrame = true;
                 counter--;
             } 
@@ -70,7 +65,6 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
             else if (IsKeyDown(KEY_UP)) 
             {
                 movement = {0, -velocity};
-                currentKeyPressed = KEY_UP;
                 keyPressedThisFrame = true;
                 counter--;
             }

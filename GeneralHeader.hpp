@@ -397,7 +397,7 @@ class PlatformerPlayer
                 velocity.x = -maxXSpeed;
             }
 
-            // Jumping.
+            // Jump if the player pressed up this frame and they are able to jump (either on the ground or in coyote time).
             if(IsKeyPressed(KEY_UP) && coyoteTimer > 0)
             {
                 velocity.y = -jumpSpeed;
@@ -457,15 +457,15 @@ class Brick
         float friction;
         float traction;
 
-        direction rectangleEnteredFromSide(Rectangle otherHitbox, Vector2 otherVelocity)// Used if other was outside hitbox on the previous frame. up = top side, down = bottom side. Only works if you already know that other is touching hitbox already. otherVelocity must be in pixels per second, ensure that otherVelocity is the velocity other used for their last movement.
+        direction rectangleEnteredFromSide(Rectangle otherHitbox, Vector2 otherVelocity)// Used if otherHitbox was outside hitbox on the previous frame. up = top side, down = bottom side. Only works if you already know that otherHitbox is touching hitbox already. otherVelocity must be in pixels per second, ensure that otherVelocity is the velocity used most recently to move otherHitbox.
         {
             // Moving otherHitbox to where it was on the previous frame.
             otherHitbox.y -= otherVelocity.y * GetFrameTime();
             otherHitbox.x -= otherVelocity.x * GetFrameTime();
             
-            if(otherHitbox.y >= hitbox.y + hitbox.height)
+            if(otherHitbox.y + otherHitbox.height <= hitbox.y)// If otherHitbox was above hitbox on the previous frame, then return up. The other if statements work the same way.
             {
-                return down;
+                return up;
             }
             if(otherHitbox.x >= hitbox.x + hitbox.width)
             {
@@ -474,6 +474,10 @@ class Brick
             if(otherHitbox.x + otherHitbox.width <= hitbox.x)
             {
                 return left;
+            }
+            if(otherHitbox.y >= hitbox.y + hitbox.height)
+            {
+                return down;
             }
 
             return up;
