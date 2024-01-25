@@ -1,4 +1,4 @@
-#pragma once// check back later, remove if this is unneeded.
+#pragma once
 
 #include "raylib.h"
 #include <vector>
@@ -45,7 +45,7 @@ Color getRandomDiscernableColour()// Returns a random colour that is easy to see
     // Makes sure that the colour is easy to see. The colour is detected as too hard to see if all rgb components have values less than 175 because colours need to be vibrant to show up on a black background (light grey and white are exceptions to this rule). The colour is made more visible by maxxing out a random rgb component because, again, colours are most visible on a black background when they are vibrant.
     if(colourToReturn.r < 175 && colourToReturn.g < 175 && colourToReturn.b < 175)
     {
-        switch(rand()%3)
+        switch(rand() % 3)
         {
             case 0:
                 colourToReturn.r = 255;
@@ -81,7 +81,7 @@ class BreakoutBall
             maxXVelocity = maxXVel;
         }
         
-        //Update the ball's position based on its velocity. Returns true if breakout is done.
+        // Update the ball's position based on its velocity. Returns true if breakout is done.
         bool update(float deltaTime, bool * playerWins, Rectangle paddleHitbox)
         {
             if(shouldFlipXVelocity)
@@ -262,7 +262,7 @@ class PlatformerPlayer
         bool grounded = false;
         float xAcceleration;
         float airXAcceleration;
-        float friction = 0;
+        float friction = 0;// Friction is the deceleration the player experiences when not pressing any buttons.
         float gravity;
         float maxXSpeed;
         float jumpSpeed;
@@ -332,15 +332,36 @@ class PlatformerPlayer
             friction = inFriction;
         }
 
-        void unground()
+        void activateAirPhysics()// Sets friction and acceleration to what they should be when the player is airborne.
         {
-            grounded = false;
             friction = 0;
             xAcceleration = airXAcceleration;
         }
 
         bool update()
         {
+            // If the player is airborne: applies gravity, ensures the physics are correctly set, and decreaces the coyote timer.
+            if(!grounded)
+            {
+                velocity.y += gravity * GetFrameTime();
+                
+                if(xAcceleration != airXAcceleration || friction != 0)// Activates air physics if they aren't already active, for when the player walks off a ledge.
+                {
+                    activateAirPhysics();
+                }
+                
+                if(coyoteTimer > 0)
+                {
+                    coyoteTimer -= GetFrameTime();
+                    
+                    if(coyoteTimer < 0)
+                    {
+                        coyoteTimer = 0;
+                    }
+                }
+            }
+
+            // Alters the left/right velocity based on player input.
             if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
             {
                 if(IsKeyDown(KEY_LEFT))
@@ -352,6 +373,7 @@ class PlatformerPlayer
                     velocity.x += xAcceleration * GetFrameTime();
                 }
             }
+            // If the player isn't moving, applies friction.
             else if(velocity.x > 0)
             {
                 velocity.x -= friction * GetFrameTime();
@@ -365,6 +387,7 @@ class PlatformerPlayer
                 if(velocity.x > 0) velocity.x = 0;
             }
 
+            // Prevents the player from going over the speed cap.
             if(velocity.x > maxXSpeed)
             {
                 velocity.x = maxXSpeed;
@@ -374,52 +397,38 @@ class PlatformerPlayer
                 velocity.x = -maxXSpeed;
             }
 
-            if(coyoteTimer > 0)
+            // Jumping.
+            if(IsKeyPressed(KEY_UP) && coyoteTimer > 0)
             {
-                if(IsKeyPressed(KEY_UP))
-                {
-                    velocity.y = -jumpSpeed;
+                velocity.y = -jumpSpeed;
 
-                    colour = getRandomDiscernableColour();
-                    
-                    unground();
-                    coyoteTimer = 0;
-                }
-            }
-
-            if(!grounded)
-            {
-                velocity.y += gravity * GetFrameTime();
+                colour = getRandomDiscernableColour();
                 
-                if(coyoteTimer > 0)
-                {
-                    coyoteTimer -= GetFrameTime();
-                    
-                    if(coyoteTimer < 0)
-                    {
-                        coyoteTimer = 0;
-                    }
-                }
+                grounded = false;
+                coyoteTimer = 0;
+                activateAirPhysics();
             }
 
+            // Moving the player based on its velocity.
             hitbox.x += velocity.x * GetFrameTime();
             hitbox.y += velocity.y * GetFrameTime();
 
             grounded = false;// Grounded will be set to true later this frame if the player is on top of a brick.
 
-            if(hitbox.x < 0)
+            // Handles touching the edge of the screen.
+            if(hitbox.x < 0)// Prevents the player from moving off the left side.
             {
                 hitbox.x = 0;
 
                 if(velocity.x < 0) velocity.x = 0;
             }
-            else if(hitbox.x + hitbox.width > GetScreenWidth())
+            else if(hitbox.x + hitbox.width > GetScreenWidth())// If the player gets to the right edge, they win.
             {
                 winScreen();
 
                 return true;
             }
-            else if(hitbox.y + hitbox.height > GetScreenHeight())
+            else if(hitbox.y + hitbox.height > GetScreenHeight())// If the player hits the bottom of the screen, they lose.
             {
                 gameOverScreen();
 
@@ -427,14 +436,6 @@ class PlatformerPlayer
             }
 
             return false;
-        }
-
-        void checkIfShouldUnground()
-        {
-            if(!grounded)
-            {
-                unground();
-            }
         }
 
         void resetCoyoteTimer()
@@ -451,14 +452,14 @@ class PlatformerPlayer
 class Brick
 {
     private:
-        Rectangle hitbox; //= {20, 20, 500, 500};// x, y, width, height
+        Rectangle hitbox;
         Color colour;
         float friction;
         float traction;
 
         direction rectangleEnteredFromSide(Rectangle otherHitbox, Vector2 otherVelocity)// Used if other was outside hitbox on the previous frame. up = top side, down = bottom side. Only works if you already know that other is touching hitbox already. otherVelocity must be in pixels per second, ensure that otherVelocity is the velocity other used for their last movement.
         {
-            // moving otherHitbox to where it was on the previous frame.
+            // Moving otherHitbox to where it was on the previous frame.
             otherHitbox.y -= otherVelocity.y * GetFrameTime();
             otherHitbox.x -= otherVelocity.x * GetFrameTime();
             
@@ -474,10 +475,8 @@ class Brick
             {
                 return left;
             }
-            if(otherHitbox.y >= hitbox.y + hitbox.height)
-            {
-                return down;
-            }
+
+            return down;
         }
 
     public:
@@ -494,7 +493,7 @@ class Brick
             DrawRectangleRec(hitbox, colour);
         }
 
-        bool updatePlatformer(PlatformerPlayer & player)// returns true if player is on top of the brick.
+        void updatePlatformer(PlatformerPlayer & player)
         {
             direction collisionSide;
             Rectangle playerHitbox = player.getHitbox();
@@ -505,10 +504,13 @@ class Brick
                 {
                     playerHitbox.y += 1;
 
-                    return CheckCollisionRecs(hitbox, playerHitbox);
+                    if(CheckCollisionRecs(hitbox, playerHitbox))
+                    {
+                        player.setGrounded(true);
+                    }
                 }
                 
-                return false;
+                return;
             }
 
             collisionSide = rectangleEnteredFromSide(playerHitbox, player.getVelocity());
@@ -526,25 +528,25 @@ class Brick
 
                     player.resetCoyoteTimer();
                     
-                    return true;
+                    return;
                     
                 case left:
                     player.setXVelocity(0);
                     player.setXPosition(hitbox.x - playerHitbox.width);
                     
-                    return false;
+                    return;
 
                 case right:
                     player.setXVelocity(0);
                     player.setXPosition(hitbox.x + hitbox.width);
                     
-                    return false;
+                    return;
 
                 case down:
                     player.setYVelocity(0);
                     player.setYPosition(hitbox.y + hitbox.height);
                     
-                    return false;
+                    return;
             }
         }
 

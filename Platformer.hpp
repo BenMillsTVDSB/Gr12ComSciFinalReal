@@ -1,4 +1,4 @@
-#include "GeneralHeader.hpp"// TODO: comment the player's update function and the brick functions that I made. Claim my functions. Comment challenges.
+#include "GeneralHeader.hpp"// TODO: comment the brick functions that I made. Claim my functions. Comment challenges.
 
 void mainPlatformer(vector<Brick> & bricks)
 {
@@ -12,13 +12,8 @@ void mainPlatformer(vector<Brick> & bricks)
 
         for(int i = 0; i < bricks.size(); i++)
         {
-            if(bricks[i].updatePlatformer(player))
-            {
-                player.setGrounded(true);
-            }
+            bricks[i].updatePlatformer(player);
         }
-        
-        player.checkIfShouldUnground();
 
         // Drawing objects
         BeginDrawing();
