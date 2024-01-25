@@ -20,7 +20,7 @@ bool mainSlidingPuzzle()// returns true if player clears section, false if they 
     Entity({730, 250, 70, 250}, 0, BLUE, "block"),
     Entity({0, 550, 50, 50}, 0, GREEN, "finish"),
     Entity({0, 400, 130, 50}, 0, RED, "hazard"),
-    Entity({678, 250, 50, 50}, 0, {0, 0, 0, 0}, "key"),
+    Entity({678, 250, 50, 50}, 0, BLANK, "key"),
     Entity({0, 0, 1000, 0}, 0, BLACK, "block"),
     Entity({1000, 0, 0, 600}, 0, BLACK, "block"),
     Entity({0, 600, 1000, 0}, 0, BLACK, "block"),
