@@ -2,7 +2,7 @@
 
 void mainPlatformer(vector<Brick> & bricks)
 {
-    PlatformerPlayer player = PlatformerPlayer({10, 10, 20, 20}, WHITE, 500, 800, 250, 350, 0.2);
+    PlatformerPlayer player = PlatformerPlayer({5, -200, 20, 20}, WHITE, 500, 800, 250, 350, 0.2);
 
     // Gameplay loop
     while(!WindowShouldClose())

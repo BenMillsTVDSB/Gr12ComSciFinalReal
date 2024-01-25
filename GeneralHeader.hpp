@@ -463,9 +463,9 @@ class Brick
             otherHitbox.y -= otherVelocity.y * GetFrameTime();
             otherHitbox.x -= otherVelocity.x * GetFrameTime();
             
-            if(otherHitbox.y + otherHitbox.height <= hitbox.y)
+            if(otherHitbox.y >= hitbox.y + hitbox.height)
             {
-                return up;
+                return down;
             }
             if(otherHitbox.x >= hitbox.x + hitbox.width)
             {
@@ -476,7 +476,7 @@ class Brick
                 return left;
             }
 
-            return down;
+            return up;
         }
 
     public:
@@ -571,7 +571,7 @@ class Brick
             {
                 ball.flipDirectionY();
             }
-            hitbox.x = -1000;
+            hitbox.x = -1200;
 
         } 
 };
