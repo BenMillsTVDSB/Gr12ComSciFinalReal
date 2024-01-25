@@ -1,6 +1,6 @@
 #include "GeneralHeader.hpp"
 
-bool mainBreakout(vector<Brick> & bricks)// returns true if player clears section, false if they are defeated. Program ends upon returning false.
+bool mainBreakout(vector<Brick> & bricks)// Owen - returns true if player clears section, false if they are defeated. Program ends upon returning false.
 {
     bool returnValue;
     BreakoutPaddle paddle = BreakoutPaddle(400, 100, 150, 25, 300, RED);
@@ -19,18 +19,20 @@ bool mainBreakout(vector<Brick> & bricks)// returns true if player clears sectio
     while(!WindowShouldClose())
     {
         
-        paddle.update(GetFrameTime());
+        //updating functions running
+        paddle.update(GetFrameTime()); 
         
-        if(ball.update(GetFrameTime(), &returnValue, paddle.getHitbox()))
+        if(ball.update(GetFrameTime(), &returnValue, paddle.getHitbox())) 
         {
             return returnValue;
         }
 
-        for(int i = 0; i < bricks.size(); i++)
+        for(int i = 0; i < bricks.size(); i++) 
         {
             bricks[i].updateBreakout(ball);
         }
 
+        //drawing loops
         BeginDrawing();
 
         ClearBackground(BLACK);
