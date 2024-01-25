@@ -65,7 +65,7 @@ Color getRandomDiscernableColour()// Ben. Returns a random colour that is easy t
     return colourToReturn;
 }
 
-class BreakoutBall
+class BreakoutBall //Owen.
 {
     private:
         Rectangle hitbox; //= {20, 20, 500, 500};// x, y, width, height
@@ -183,11 +183,11 @@ class BreakoutBall
             shouldFlipYVelocity = true;
         }
 
-        //add other things later for brick and paddle collision
+        
 
 };
 
-class BreakoutPaddle
+class BreakoutPaddle //Owen - Class for breakout paddle
 {
 
     private:
@@ -557,7 +557,7 @@ class Brick
             }
         }
 
-        void updateBreakout(BreakoutBall & ball)
+        void updateBreakout(BreakoutBall & ball) //Owen - function to check collisions with ball and bricks
         {
             
         
