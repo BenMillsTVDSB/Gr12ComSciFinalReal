@@ -1,6 +1,6 @@
-#include "GeneralHeader.hpp"// TODO: comment the brick functions that I made. Claim my functions. Comment challenges.
+#include "GeneralHeader.hpp"
 
-void mainPlatformer(vector<Brick> & bricks)
+void mainPlatformer(vector<Brick> & bricks)// Ben.
 {
     PlatformerPlayer player = PlatformerPlayer({5, -200, 20, 20}, WHITE, 500, 800, 250, 350, 0.2);
 

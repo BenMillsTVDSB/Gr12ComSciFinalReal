@@ -3,7 +3,7 @@
 #include "SlidingPuzzle.hpp"
 #include "time.h"
 
-int main()
+int main()// Ben.
 {
     vector<Brick> bricks;
     

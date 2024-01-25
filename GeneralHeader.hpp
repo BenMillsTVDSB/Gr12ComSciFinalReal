@@ -8,7 +8,7 @@ using namespace std;
 
 enum direction : char {left, right, up, down};
 
-void gameOverScreen()
+void gameOverScreen()// Ben.
 {
     while(!WindowShouldClose())
     {
@@ -21,7 +21,7 @@ void gameOverScreen()
     }
 }
 
-void winScreen()
+void winScreen()// Ben.
 {
     while(!WindowShouldClose())
     {
@@ -34,7 +34,7 @@ void winScreen()
     }
 }
 
-Color getRandomDiscernableColour()// Returns a random colour that is easy to see on a black background.
+Color getRandomDiscernableColour()// Ben. Returns a random colour that is easy to see on a black background.
 {
     struct Color colourToReturn = {0, 0, 0, 255};
     
@@ -253,7 +253,7 @@ class BreakoutPaddle
 
 };
 
-class PlatformerPlayer
+class PlatformerPlayer// Ben.
 {
     private:
         Rectangle hitbox;
@@ -335,7 +335,7 @@ class PlatformerPlayer
         void activateAirPhysics()// Sets friction and acceleration to what they should be when the player is airborne.
         {
             friction = 0;
-            xAcceleration = airXAcceleration;
+            xAcceleration = airXAcceleration;// Inertia changing based on grounded or arial challenge. Ben.
         }
 
         bool update()
@@ -350,7 +350,7 @@ class PlatformerPlayer
                     activateAirPhysics();
                 }
                 
-                if(coyoteTimer > 0)
+                if(coyoteTimer > 0)// Coyote time challenge. Ben.
                 {
                     coyoteTimer -= GetFrameTime();
                     
@@ -364,7 +364,7 @@ class PlatformerPlayer
             // Alters the left/right velocity based on player input.
             if(IsKeyDown(KEY_LEFT) != IsKeyDown(KEY_RIGHT))
             {
-                if(IsKeyDown(KEY_LEFT))
+                if(IsKeyDown(KEY_LEFT))// Inertia challenge. Ben.
                 {
                     velocity.x -= xAcceleration * GetFrameTime();
                 }
@@ -398,11 +398,11 @@ class PlatformerPlayer
             }
 
             // Jump if the player pressed up this frame and they are able to jump (either on the ground or in coyote time).
-            if(IsKeyPressed(KEY_UP) && coyoteTimer > 0)
+            if(IsKeyPressed(KEY_UP) && coyoteTimer > 0)// Coyote time challenge. Ben.
             {
                 velocity.y = -jumpSpeed;
 
-                colour = getRandomDiscernableColour();
+                colour = getRandomDiscernableColour();// Colour changing challenge. Ben.
                 
                 grounded = false;
                 coyoteTimer = 0;
@@ -454,37 +454,37 @@ class Brick
     private:
         Rectangle hitbox;
         Color colour;
-        float friction;
-        float traction;
+        float friction;// The friction applied to the player when standing on the brick.
+        float traction;// The acceleration the player has when standing on the brick.
 
-        direction rectangleEnteredFromSide(Rectangle otherHitbox, Vector2 otherVelocity)// Used if otherHitbox was outside hitbox on the previous frame. up = top side, down = bottom side. Only works if you already know that otherHitbox is touching hitbox already. otherVelocity must be in pixels per second, ensure that otherVelocity is the velocity used most recently to move otherHitbox.
+        direction rectangleEnteredFromSide(Rectangle otherHitbox, Vector2 otherVelocity)// Ben. Used if otherHitbox was outside hitbox on the previous frame. up = top side, down = bottom side. Only works if you already know that otherHitbox is touching hitbox already. otherVelocity must be in units per second, ensure that otherVelocity is the velocity used most recently to move otherHitbox.
         {
             // Moving otherHitbox to where it was on the previous frame.
             otherHitbox.y -= otherVelocity.y * GetFrameTime();
             otherHitbox.x -= otherVelocity.x * GetFrameTime();
             
-            if(otherHitbox.y + otherHitbox.height <= hitbox.y)// If otherHitbox was above hitbox on the previous frame, then return up. The other if statements work the same way.
+            if(otherHitbox.y + otherHitbox.height <= hitbox.y)// If otherHitbox was above hitbox on the previous frame, then return up.
             {
                 return up;
             }
-            if(otherHitbox.x >= hitbox.x + hitbox.width)
+            if(otherHitbox.x >= hitbox.x + hitbox.width)// If otherHitbox was to the right of hitbox on the previous frame, then return right.
             {
                 return right;
             }
-            if(otherHitbox.x + otherHitbox.width <= hitbox.x)
+            if(otherHitbox.x + otherHitbox.width <= hitbox.x)// If otherHitbox was to the left of hitbox on the previous frame, then return left.
             {
                 return left;
             }
-            if(otherHitbox.y >= hitbox.y + hitbox.height)
+            if(otherHitbox.y >= hitbox.y + hitbox.height)// If otherHitbox was below hitbox on the previous frame, then return down.
             {
                 return down;
             }
 
-            return up;
+            return up;// Return up by default since floating point rounding errors can cause the code to get to here. Up is chosen since it is the most frequent side hit in both breakout and platformer mode.
         }
 
     public:
-        Brick(Rectangle inHitbox, Color inColour, float inTraction, float inFriction)
+        Brick(Rectangle inHitbox, Color inColour, float inTraction, float inFriction)// Ben.
         {
             hitbox = inHitbox;
             colour = inColour;
@@ -497,37 +497,38 @@ class Brick
             DrawRectangleRec(hitbox, colour);
         }
 
-        void updatePlatformer(PlatformerPlayer & player)
+        void updatePlatformer(PlatformerPlayer & player)// Ben.
         {
-            direction collisionSide;
             Rectangle playerHitbox = player.getHitbox();
             
             if(!CheckCollisionRecs(hitbox, playerHitbox))
             {
-                if(playerHitbox.y + playerHitbox.height == hitbox.y)
+                if(playerHitbox.y + playerHitbox.height == hitbox.y)// If the player isn't touching the brick but is at the same y-value as it, check to see if the player is standing on the brick by seeing if the hitboxes collide when the player is moved down by 1 unit. If they do, then set grounded to true and update the traction and friction.
                 {
                     playerHitbox.y += 1;
 
                     if(CheckCollisionRecs(hitbox, playerHitbox))
                     {
                         player.setGrounded(true);
+
+                        player.setXAcceleration(traction);// Acceleration changing based on grounded or arial challenge. Ben.
+                        player.setFriction(friction);
                     }
                 }
                 
                 return;
             }
 
-            collisionSide = rectangleEnteredFromSide(playerHitbox, player.getVelocity());
-
-            switch(collisionSide)
+            // Pushes the player out of the brick from the side they came in from and halts their velocity in the relevant direction.
+            switch(rectangleEnteredFromSide(playerHitbox, player.getVelocity()))
             {
-                case up:
+                case up:// If the player hit the top of the brick, then also declare them grounded, reset the coyote timer, and set their acceleration and friction.
                     player.setGrounded(true);
 
                     player.setYVelocity(0);
                     player.setYPosition(hitbox.y - playerHitbox.height);
 
-                    player.setXAcceleration(traction);
+                    player.setXAcceleration(traction);// Acceleration changing based on grounded or arial challenge. Ben.
                     player.setFriction(friction);
 
                     player.resetCoyoteTimer();
