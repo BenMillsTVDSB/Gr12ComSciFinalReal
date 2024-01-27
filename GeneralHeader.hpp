@@ -130,7 +130,7 @@ class BreakoutBall //Owen.
                 color = getRandomDiscernableColour();
             }
 
-            if(hitbox.x < 0 || hitbox.x + hitbox.width > GetScreenWidth())
+            if((hitbox.x < 0 && velocity.x < 0) || (hitbox.x + hitbox.width > GetScreenWidth() && velocity.x > 0))
             {
                 velocity.x *= -1;
             }
