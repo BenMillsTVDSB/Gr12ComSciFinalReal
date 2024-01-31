@@ -5,7 +5,8 @@
 #include <iostream>
 using namespace std;
 
-bool mainSlidingPuzzle(clock_t * startTime)// returns true if player clears section, false if they are defeated. Program ends upon returning false.
+// returns true if player clears section, false if they are defeated. Program ends upon returning false.
+bool mainSlidingPuzzle(clock_t * startTime)
 {
     // Gameplay loop
     vector<Entity> entities = 
@@ -32,13 +33,16 @@ bool mainSlidingPuzzle(clock_t * startTime)// returns true if player clears sect
     int counter = 20;
     bool keyPressedThisFrame, isKeyObtained = false;
     Rectangle rectangle;
+
+    // Picture of the key
     Texture2D key = LoadTexture("key.png");
 
     while(!WindowShouldClose())
     {
         keyPressedThisFrame = false;
         rectangle = player.getHitbox();
-        // Update
+
+        // Checks for movement
         if (movement.x == 0 && movement.y == 0)
         {
             if (IsKeyDown(KEY_RIGHT)) 
@@ -50,6 +54,8 @@ bool mainSlidingPuzzle(clock_t * startTime)// returns true if player clears sect
 
                 movement = {velocity, 0};
                 keyPressedThisFrame = true;
+
+                // Counting down from 20
                 counter--;
             }  
 
@@ -90,6 +96,7 @@ bool mainSlidingPuzzle(clock_t * startTime)// returns true if player clears sect
             }
         }
 
+        //Updating position
         rectangle.x += movement.x;
         rectangle.y += movement.y;
 
@@ -101,6 +108,7 @@ bool mainSlidingPuzzle(clock_t * startTime)// returns true if player clears sect
             {
                 if (entities[i].getType() == "block")
                 {
+                    // Stoping the movement on collision
                     rectangle.x -= movement.x;
                     rectangle.y -= movement.y;
 
