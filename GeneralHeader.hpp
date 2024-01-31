@@ -31,7 +31,7 @@ void winScreen(clock_t time)// Ben.
 
         ClearBackground(BLACK);
         DrawText("You Win!", 300, 250, 100, WHITE);
-        DrawText(to_string((double)time / CLOCKS_PER_SEC).c_str(), 200, 450, 100, WHITE);
+        DrawText(to_string((double)time / CLOCKS_PER_SEC).c_str(), 260, 450, 100, WHITE);
 
         EndDrawing();
     }
